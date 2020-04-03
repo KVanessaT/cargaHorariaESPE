@@ -1,0 +1,49 @@
+
+
+
+<br>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h5>
+        <b>
+          <mat-icon>loupe</mat-icon> Seleccione una subactividad
+        </b>
+      </h5>
+      <hr>
+      <div mat-dialog-content>
+        <div>
+          <div>
+            <mat-form-field >
+              <mat-label>Seleccione un subactividad</mat-label>
+              <mat-select name="si" style="height: auto;">
+                <mat-option *ngFor="let sub of subactividades" value="{{sub.stvasty_code}}">
+                  {{sub.stvasty_code}} - {{sub.stvasty_desc}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div mat-dialog-actions>
+        <div class="col-md-6">
+
+          <button mat-raised-button mat-dialog-close type="submit" class="btn btn-primary pull-right">CONSULTAR
+          </button>
+        </div>
+        <div class="col-md-6">
+
+          <button mat-raised-button mat-dialog-close type="submit" class="btn btn-danger pull-right">CANCELAR
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+<!-- (click)="guardarPer(per.stvtermCode, per.code);"
+
+(click)="getActividades()" -->

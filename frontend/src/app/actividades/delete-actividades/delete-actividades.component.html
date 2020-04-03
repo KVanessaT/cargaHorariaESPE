@@ -1,0 +1,22 @@
+<h2 mat-dialog-title style="text-align: center;">Eliminar Actividad</h2>
+<hr>
+<mat-dialog-content>
+  <div *ngIf= "activar">
+    <p class="alerta">
+      ¿Está seguro que desea eliminar esta actividad?
+    </p>
+    <p>
+      <!-- <br>Actividad a eliminar: <strong>{{data.actividad}}</strong> -->
+    </p>
+  </div>
+</mat-dialog-content>
+<div *ngIf= "error">
+<mat-error>La actividad contiene subactividades!!<br> 
+No es posible eliminar
+</mat-error>
+</div>
+  <mat-dialog-actions style="justify-content: center">
+    <button mat-raised-button color="warn"  *ngIf="activar" (click)="eliminarActividad()" >Eliminar</button>
+
+<button  mat-raised-button color="primary" (click)="cerrarModal()">Cancelar</button>
+</mat-dialog-actions>

@@ -6,6 +6,7 @@
 package espe.edu.ec.carga_horaria.dao;
 
 import espe.edu.ec.carga_horaria.model.Periodo;
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -15,6 +16,14 @@ import org.springframework.data.repository.CrudRepository;
  * @author Vanessa
  */
 public interface PeriodoRepository extends CrudRepository <Periodo, Long>{
-      @Query(value="select * from saturn.stvterm",nativeQuery=true)
-    List<Periodo> findAllPeriodos();
+     // @Query(value="select * from saturn.stvterm order by stvterm_desc",nativeQuery=true)
+          @Query(value="select * from saturn.stvterm",nativeQuery=true)
+
+        List<Periodo> findAllPeriodos();
+    
+    Periodo findByStvtermCode(String codeP);
+    
+    Periodo findByStvtermStartDate(Date FechaInicio);
+
+    //public Date findByStvtermStartDate();
 }

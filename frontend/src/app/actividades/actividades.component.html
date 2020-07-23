@@ -1,124 +1,287 @@
-<div class="card" (scroll)="onScroll($event)">
-  <div class="card-header card-header-danger">
-    <h4 class="card-title">Actividades y subactividades</h4>
-  </div>
-  <br>
-
-  <div class="container-fluid">
+<div class="container-fluid">
+  <div class="row">
     <div class="col-md-12">
-      <div class="row">
-        <div class="col-md-7">
-          <p-table #dt [columns]="cols" [value]="actividades" [paginator]="true" [rows]="5" selectionMode="single"
-            [rowsPerPageOptions]="[3,5]">
-            <ng-template pTemplate="caption">
-              <div class="container-fluid">
-                <div class="col-md-12">
-                  <div class="row">
-                    <div class="col-md-9">
-                      <h4 style="text-align: center;"><b>LISTADO DE ACTIVIDADES</b> </h4>
+      <div class="card">
+        <div class="card-header card-header-danger">
+          <h4 class="card-title">Actividades y subactividades</h4>
+        </div>
+        <div class="container-fluid">
+          <div class="col-md-12">
+
+            <div class="card" style="background-color: khaki;">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label class="lab"><strong>CAMPUS:</strong> </label>
+                    <strong class="lab"> {{docente.campus}}</strong>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="lab"> <strong>DEPARTAMENTO:</strong> </label>
+                    <strong> {{docente.departamento}}</strong>
+                  </div>
+                  <div class="col-md-3">
+                    <label class="lab"> <strong>ID: </strong> </label>
+                    <strong> {{docente.idBanner}}</strong>
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-5">
+                    <label class="lab"> <strong>Docente:</strong> </label>
+                    <strong> {{docente.apellido}} {{docente.nombres}}</strong>
+
+                  </div>
+                  <div class="col-md-2">
+                    <label class="lab"> <strong>Periodo:</strong> </label>
+                    <strong> {{period}} </strong>
+
+                  </div>
+                  <div class="col-md-3">
+                    <label class="lab"> <strong>Dedicación: </strong> </label>
+                    <strong> {{docente.dedicacion}} </strong>
+                    <div class="modal fade" id="myModal" role="dialog">
+                      <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                          <div class="modal-header" style="text-align: center;">
+                            <h4 class="modal-title"> <strong class="lab2"> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Horas de
+                                dedicación</strong> </h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+                          <div class="modal-body" style="text-align: justify;">
+                            <p><strong class="lab1">TIEMPO COMPLETO →</strong> máximo 40 horas</p>
+                            <p> <strong class="lab1">MEDIO TIEMPO →</strong> máximo 20 horas</p>
+                            <p> <strong class="lab1">TIEMPO PARCIAL →</strong> máximo 19 horas</p>
+                          </div>
+                          <div class="modal-footer" style="justify-content: center;">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-md-3">
-                      <button mat-raised-button color="primary" (click)="agregarAct()">
-                        <mat-icon>add</mat-icon>
-                        <span>Agregar</span>
-                      </button>
-                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <label class="lab"> <strong>Estado:</strong> </label>
+                    <strong> {{statusDoc}}</strong>
+
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-5">
+                    <button class="btn btn-accent" type="submit" color="accent" (click)="getDocentes('arbolito')">Elegir
+                      otro docente {{statusDoc}}</button>
+                  </div>
+
+
+                  <div class="col-md-3">
+                    <button type="button" class="btn btn-info" (click)="getPer();"
+                      style="justify-content: center;">Cambiar de
+                      periodo</button>
+                  </div>
+                  <div class="col-md-2">
+                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+                      <i class="fa fa-question"></i></button>
+                  </div>
+                  <div class="col-md-2">
+
                   </div>
                 </div>
               </div>
-            </ng-template>
-            <ng-template pTemplate="header" let-columns>
-              <tr>
-                <th style="width: 9%; text-align: center;">Cod</th>
-                <th style="width: 40%; text-align: center;">Actividad </th>
-                <th style="width: 12%; text-align: center;">Horas</th>
-                <!-- <th style="width: 15%; text-align: center;">Unidad</th>
-                <th style="width: 15%; text-align: center;">Responsable</th> -->
-                <th rowspan="2" style="width: 39%; text-align: center;">Opciones
-                </th>
-              </tr>
-
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr [pSelectableRow]="rowData" [pEditableRow]="rowData">
-                <td style="text-align: center;">{{rowData.pzptcabperjact_actividad}}</td>
-                <td style="text-align: center;">{{rowData.ptvjact_desc}}</td>
-                <td style="text-align: center;">{{rowData.pzptcabperjact_horas}}</td>
-                <!-- <td style="text-align: center;">{{rowData.pzptcabperjact_unidad_gestion}}</td>
-                <td style="text-align: center;">{{rowData.pzptcabperjact_responsable}}</td> -->
-                <td style="width: 8em; text-align: center;">
-                  <button class="btn" (click)="guardarCodAct(rowData.pzptcabperjact_actividad, rowData.pzptcabperjact_horas); getSubActiv()"><i
-                      class="fa fa-eye"></i></button>
-                  <button class="btn " (click)="agregarSubAct(rowData.pzptcabperjact_actividad)"><i class="fa fa-plus"></i></button>
-                  <button class="btn" (click)="editarAct()"><i class="fa fa-edit"></i></button>
-                  <button class="btn" (click)="eliminarAct(rowData.pzptcabperjact_actividad, rowData.pzptcabperjact_horas)"><i class="fa fa-trash"></i></button>
-                  <!-- <button class="btn" (click)="prueba()"><i class="fa fa-trash"></i></button> -->
-
-                </td>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="summary" style="height: min-content;">
-              <td colspan="2">
-                Total Horas:
-              </td>
-            </ng-template>
-            <ng-template pTemplate="emptymessage" let-columns>
-              <tr>
-                <td colspan="6">
-                  <p style="justify-content: center;">No se encontraron registros</p>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
+            </div>
+          </div>
         </div>
-        <div class="col-md-5">
-          <p-table #dt [columns]="cols" [value]="subactividad" [paginator]="false" [rows]="5" selectionMode="single"
-            [rowsPerPageOptions]="[3,5]">
-            <ng-template pTemplate="caption">
-              <h4 style="text-align: center;"><b>SUBACTIVIDADES</b> </h4>
-            </ng-template>
-            <ng-template pTemplate="header" let-columns>
-              <tr>
-                <th style="width: 16%; text-align: center;">Cod</th>
-                <th style="width: 35%; text-align: center;">Subactividad</th>
-                <th style="width: 17%; text-align: center;">Horas </th>
-                <th rowspan="2" style="width: 33%; text-align: center;">Opciones
-                </th>
-              </tr>
+        <div class="container-fluid">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-7">
+                <p-table #dt [columns]="cols" [value]="actividades" [paginator]="true" [rows]="5" selectionMode="single"
+                  [rowsPerPageOptions]="[3,5]">
+                  <ng-template pTemplate="caption">
+                    <div class="container-fluid">
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-5">
+                            <button class="btn btn-primary" (click)="agregarAct()"
+                              style="align-items: center;display: flex;" [disabled]="docente.status == 'T'">
+                              <!-- <mat-icon>add</mat-icon> -->
+                              <i class="fa fa-plus"></i>
+                              <!-- <span>Agregar</span> -->
+                              &nbsp; Agregar
+                            </button>
+                          </div>
+                          <div class="col-md-6">
+                            <h4 style="align-items: center;display: flex;color: darkblue;"><b>ACTIVIDADES</b> </h4>
 
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-columns="columns">
-              <tr [pSelectableRow]="rowData" [pEditableRow]="rowData">
-                <td style="text-align: center;">{{rowData.perjact_asty_code}}</td>
-                <td style="text-align: center;">{{rowData.stvasty_desc}}</td>
-                <td style="text-align: center;">{{rowData.perjact_std_hrs_per_pay}}</td>
+                          </div>
+                          <div class="col-md-1">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th style="width: 9%; text-align: center;color: darkblue;">
+                        <h6>
+                          <b>Cod</b>
+                        </h6>
+                      </th>
+                      <th style="width: 37%; text-align: center;color: darkblue;">
+                        <h6>
+                          <b>Actividad</b>
+                        </h6>
+                      </th>
+                      <th style="width: 12%; text-align: center;color: darkblue;">
+                        <h6>
+                          <b>Horas</b>
+                        </h6>
+                      </th>
+                      <th rowspan="2" style="width: 20%; text-align: center;color: darkblue;">
+                        <h6>
+                          <b>Opciones actividades</b>
+                        </h6>
+                      </th>
+                      <th rowspan="2" style="width: 22%; text-align: center;color: darkblue;">
+                        <h6>
+                          <b>Opciones subactividades</b>
+                        </h6>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData" [pEditableRow]="rowData">
+                      <td style="text-align: center;">{{rowData.pzptcabperjact_actividad}}</td>
+                      <td style="text-align: center;">{{rowData.ptvjact_desc}}</td>
+                      <td style="text-align: center;">{{rowData.pzptcabperjact_horas}}</td>
+                      <td style="width: 8em; text-align: center;">
+                        <button class="btn btn-primary"
+                          (click)="guardarCodAct(rowData.pzptcabperjact_actividad, rowData.pzptcabperjact_horas, rowData.ptvjact_desc, rowData.pzptcabperjact_unidad_gestion, rowData.pzptcabperjact_responsable, rowData.pzptcabperjact_user_create, rowData.pzptcabperjact_date_create, rowData.pzptcabperjact_user_edit, rowData.pzptcabperjact_date_edit);updateActividad();"
+                          [disabled]="docente.status == 'T' || rowData.pzptcabperjact_actividad == '01' || rowData.pzptcabperjact_actividad == '05'">
+                          <i class="fa fa-edit"></i></button>
+                        <button class="btn btn-primary"
+                          (click)="eliminarAct(rowData.pzptcabperjact_actividad, rowData.ptvjact_desc, rowData.pzptcabperjact_horas);getSubActiv()"
+                          [disabled]="docente.status == 'T'">
+                          <i class="fa fa-trash"></i></button>
+                      </td>
+                      <td style="width: 8em; text-align: center;">
+                        <button class="btn"
+                          (click)="guardarCodAct(rowData.pzptcabperjact_actividad, rowData.pzptcabperjact_horas, rowData.ptvjact_desc ); getSubActiv()"><i
+                            class="fa fa-eye"></i></button>
+                        <button class="btn btn-primary"
+                          (click)="agregarSubAct(rowData.pzptcabperjact_actividad, rowData.pzptcabperjact_horas, rowData.ptvjact_desc);getSubActiv()"
+                          [disabled]="docente.status == 'T'"><i class="fa fa-plus"></i></button>
+                        <!-- <button class="btn" (click)="editarAct()"><i class="fa fa-edit"></i></button> -->
 
-                <td style="width: 8em; text-align: center;">
-                  <button class="btn" (click)="editarSubAct()"><i class="fa fa-edit"></i></button>
-                  <button class="btn" (click)="eliminarSubAct()"><i class="fa fa-trash"></i></button>
-                </td>
-              </tr>
-            </ng-template>
-            <ng-template pTemplate="summary" style="height: min-content;">
-              <td colspan="2">
-                Total Horas:
-              </td>
-            </ng-template>
-            <ng-template pTemplate="emptymessage" let-columns>
-              <tr>
-                <td colspan="6">
-                  <p style="justify-content: center;">No se encontraron registros</p>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-<br>
-<br>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="summary" style="height: min-content;">
+                    <td colspan="2" style="color: darkblue;">
+                      Total Horas: {{horSub}}
+
+                    </td>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                      <td colspan="6">
+                        <p style="justify-content: center;color: darkblue;">No se encontraron registros</p>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+                <br>
+                <label class="lab1" for="">Progreso de ingreso de las actividades</label>
+                <p-progressBar [value]="value"></p-progressBar>
+                <br>
+                <div *ngIf="alertA" class="alert alert-info" role="alert">
+                  <strong>Oh snap!</strong> Change a few things up and try submitting again.
+                </div>
+                <div *ngIf="alertR" class="alert alert-danger" role="alert">
+                  <strong>Oh snap!</strong> Change a few things up and try submitting again.
+                </div>
+              </div>
+              <div class="col-md-5">
+                <p-table #dt [columns]="cols" [value]="subactividad" [paginator]="false" [rows]="5"
+                  selectionMode="single" [rowsPerPageOptions]="[3,5]">
+                  <ng-template pTemplate="caption">
+                    <h4 style="text-align: center;color: darkblue;"><b>SUBACTIVIDADES</b> </h4>
+                  </ng-template>
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th style="width: 16%; text-align: center;color: darkblue;">
+                        <h6>
+                          <b>Cod</b>
+                        </h6>
+                      </th>
+                      <th style="width: 35%; text-align: center;color: darkblue;">
+                        <h6>
+                          <b>Subactividad</b>
+                        </h6>
+                      </th>
+                      <th style="width: 17%; text-align: center;color: darkblue;">
+                        <h6>
+                          <b>Horas</b>
+                        </h6>
+                      </th>
+                      <th rowspan="2" style="width: 33%; text-align: center;color: darkblue;">
+                        <h6>
+                          <b>Opciones</b>
+                        </h6>
+
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData" [pEditableRow]="rowData">
+                      <td style="text-align: center;">{{rowData.perjact_asty_code}}</td>
+                      <td style="text-align: center;">{{rowData.stvasty_desc}}</td>
+                      <td style="text-align: center;">{{rowData.perjact_std_hrs_per_pay}}</td>
+
+                      <td style="width: 8em; text-align: center;">
+                        <button class="btn btn-primary" (click)="editarSubAct(rowData); getSubActiv()"
+                          [disabled]="docente.status == 'T'"><i class="fa fa-edit"></i></button>
+                        <button class="btn btn-primary" (click)="eliminarSubAct(rowData)"
+                          [disabled]="docente.status == 'T'"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="summary" style="height: min-content;">
+                    <td colspan="2" style="color: darkblue;">
+                      Total Horas: {{horAct}}
+                    </td>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage" let-columns>
+                    <tr>
+                      <td colspan="6">
+                        <p style="justify-content: center;color: darkblue;">No se encontraron registros</p>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+                <br>
+                <p-chart type="doughnut" [data]="dona"></p-chart>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+              </div>
+              <div class="col-md-4">
+                <button type="button" class="btn btn-info" (click)="cancel()">
+                  <i class="fa fa-hand-o-left"></i>&nbsp; Regresar </button>
+
+                <a [routerLink]="['/dashboard']" class="btn btn-info">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salir
+                  &nbsp;&nbsp;&nbsp; <i class="fa fa-sign-out"></i></a>
+              </div>
+              <div class="col-md-4">
+              </div>
+            </div>
+            <br>
+          </div>
+
         </div>
-        <br>
       </div>
+
     </div>
   </div>
-  <br>
-
 </div>

@@ -15,9 +15,9 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { RestService } from './service/rest.service';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from 'ngx-toastr';
-
-
+import { AuthService } from './services/auth.service';
 //import { ToastrModule } from 'ngx-toastr';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 @NgModule({
   imports: [
@@ -32,6 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
     NgxSpinnerModule,
     BrowserModule,
     ToastrModule.forRoot(),
+    OAuthModule.forRoot(),
 
     AgmCoreModule.forRoot({
       apiKey: 'YOUR_GOOGLE_MAPS_API_KEY'
@@ -41,7 +42,7 @@ import { ToastrModule } from 'ngx-toastr';
     AppComponent,
     AdminLayoutComponent
   ],
-  providers: [RestService],
+  providers: [RestService,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

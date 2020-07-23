@@ -50,11 +50,12 @@
     </ul>
   </div>
     <ul class="nav">
-        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
-            <a class="nav-link" [routerLink]="[menuItem.path]">
-                <i class="material-icons">{{menuItem.icon}}</i>
-                <p>{{menuItem.title}}</p>
+        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.clese}} nav-item">
+            <a class="nav-link" [routerLink]="[menuItem.url]">
+                <i class="material-icons">{{menuItem.icono}}</i>
+                <b>{{menuItem.opcion}}</b>
             </a>
         </li>
     </ul>
 </div>
+

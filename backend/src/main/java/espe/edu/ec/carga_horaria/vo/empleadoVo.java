@@ -27,13 +27,15 @@ public class  empleadoVo implements Serializable{
     private String dedicacion;
     private int pebempl_pidm;
     private String code;
+    private String seccion;
+    private String estado;
 
  
 
     public empleadoVo() {
     }
 
-    public empleadoVo(String id_banner, String nombres, String apellido, String prefijo, String dedicacion, int pebempl_pidm, String code) {
+    public empleadoVo(String id_banner, String nombres, String apellido, String prefijo, String dedicacion, int pebempl_pidm, String code, String seccion, String estado) {
         this.id_banner = id_banner;
         this.nombres = nombres;
         this.apellido = apellido;
@@ -41,6 +43,8 @@ public class  empleadoVo implements Serializable{
         this.dedicacion = dedicacion;
         this.pebempl_pidm = pebempl_pidm;
         this.code = code;
+        this.seccion = seccion;
+        this.estado = estado;
     }
 
     public String getId_banner() {
@@ -98,5 +102,22 @@ public class  empleadoVo implements Serializable{
     public void setCode(String code) {
         this.code = code;
     }
+
+    public String getSeccion() {
+        return seccion;
+    }
+
+    public void setSeccion(String seccion) {
+        this.seccion = seccion;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     
 }

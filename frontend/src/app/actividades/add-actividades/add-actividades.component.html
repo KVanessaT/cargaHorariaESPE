@@ -1,21 +1,18 @@
-<br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <h5>
-                <b>
-                    <mat-icon>loupe</mat-icon> Agregar una actividad
-                </b>
-            </h5>
-            <hr>
+
+            <h2 class="titulo" mat-dialog-title><i class="fa fa-plus-square"></i> Agregar una actividad</h2>
+            <hr style="border-color: rgb(22, 153, 29)">
+            <br>
             <div mat-dialog-content>
                 <div>
                     <div>
-                        <mat-form-field style="width: 250px;">
-                            <mat-label>Seleccione una actividad</mat-label>
-                            <mat-select name="si" style="height: auto;width: 260px;">
+                        <mat-form-field style="width: 270px;">
+                            <mat-label style="color: darkblue;">Seleccione una actividad</mat-label>
+                            <mat-select name="si" style="height: auto;width: 270px;">
                                 <mat-option style="width: 300px;" *ngFor="let act of activ" value="{{act.ptvjactCode}}"
-                                    (click)="getActividad(act.ptvjactCode, act.ptvjactDesc); comprobarAct()">
+                                    (click)="getActividad(act.ptvjactCode, act.ptvjactDesc);">
                                     {{act.ptvjactCode}} - {{act.ptvjactDesc}}
                                 </mat-option>
                             </mat-select>
@@ -25,66 +22,77 @@
                         <mat-form-field>
                             <input matInput placeholder="Número de horas" [(ngModel)]="hora"
                                 onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;"
-                                onpaste="return false" minlength="1" maxlength="2" type="text" required>
+                                onpaste="return false" minlength="1" maxlength="2" type="number" min="1"
+                                pattern="^[0-9]+" required>
                         </mat-form-field>
                     </div>
-
-                    <div *ngIf="div2">
-                        <div>
-                            <mat-form-field>
-                                <input matInput placeholder="Número de horas" [(ngModel)]="hora"
-                                    onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;"
-                                    onpaste="return false" minlength="1" maxlength="2" type="text" required>
-                            </mat-form-field>
-                        </div>
-                        <div>
-                            <mat-form-field>
-                                <input matInput placeholder="Unidad Gestion" [(ngModel)]="unidadG">
-                            </mat-form-field>
-                        </div>
-                        <div>
-                            <mat-form-field>
-                                <input matInput placeholder=" Responsable" [(ngModel)]="responsable">
-                            </mat-form-field>
+                    <div *ngIf="verifAct === true && codeAct === '02' || codeAct === '03' || codeAct === '04' ">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <mat-form-field style="width: 210px;">
+                                    <mat-label style="color: darkblue;"> Cédula del responsable:</mat-label>
+                                    <input matInput placeholder=" " type="text" name="ced" [(ngModel)]="cedula"
+                                        onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;"
+                                        onpaste="return false" minlength="10" maxlength="10" min="4" pattern="^[0-9]+"
+                                        required>
+                                    <mat-error>Debe contener 10 dígitos</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn" (click)="getResponsable();" [disabled]="cedula == null || cedula.length == 0">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div *ngIf="error">
+                    <div *ngIf="ResponUnidad">
+                        <label for="" class="black"> Responsable:</label><br>
+                        <h6 class="label"><strong>{{responsable.nombres}} {{responsable.apellido}}</strong></h6>
+                        <label for="" class="black"> Unidad de gestión:</label><br>
+                        <h6 class="label"><strong>{{titleSeccion}}</strong></h6>
+                    </div>
+                    <div *ngIf="mensaje">
                         <mat-error>
+                            <h6>La cédula ingresada no es válida!!</h6>
 
+                        </mat-error>
+                        <mat-error>
+                            <h6>No se encontraron resultados</h6>
+
+                        </mat-error>
+                        <mat-error>
+                            <h6> Por favor, verifique e intente nuevamente.</h6>
+
+                        </mat-error>
+                    </div>
+                    <div *ngIf="verifAct === false">
+                        <mat-error>
                             Esta actividad ya existe en este periodo
 
                         </mat-error>
-                        <!-- <div class="alert alert-danger">
-                            Esta actividad ya existe en este periodo.
-                              </div> -->
                     </div>
                     <div *ngIf="maxHora">
                         <mat-error>
-                            Supera el maximo de horas
+                            Supera el máximo de horas
                         </mat-error>
-
                     </div>
 
                 </div>
-
             </div>
-
+            <br>
 
             <div mat-dialog-actions>
                 <div class="col-md-6">
-
-                    <button mat-raised-button type="submit" class="btn btn-primary pull-right" (click)="actividadesHoras()"
-                        *ngIf="activar">AGREGAR
+                    <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)="guardarM()" [disabled]="!verifAct || !persResponsable"
+                        >AGREGAR
                     </button>
                 </div>
                 <div class="col-md-6">
-
-                    <button mat-raised-button mat-dialog-close type="submit" class="btn btn-danger pull-right">CANCELAR
+                    <button mat-raised-button mat-dialog-close type="submit" class="btn btn-primary pull-right">CANCELAR
                     </button>
                 </div>
             </div>
+
         </div>
-
-
     </div>
 </div>

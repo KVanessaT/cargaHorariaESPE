@@ -1,3 +1,77 @@
-<p>
-  edit-subactividades works!
-</p>
+<h2 class="titulo" mat-dialog-title ><i class="fa fa-edit"></i>  Editar subactividad</h2>
+<hr style="border-color: rgb(22, 153, 29)">
+<mat-dialog-content>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            <label for="" class="label"><strong> Nombre de la subactividad:</strong></label><br>
+            <strong>{{data.descripcion.perjact_asty_code}} - {{data.descripcion.stvasty_desc}}</strong>
+          </div>
+          <!-- <div class="col-md-3">
+            <label for="" class="label"><strong>Horas:</strong> </label><br>
+            <p>{{data.descripcion.perjact_std_hrs_per_pay}}</p>
+          </div> -->
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label for="" class="label"><strong>Horas:</strong> </label><br>
+            <input matInput [(ngModel)]="data.objeto.horas" name="hora" type="number" 
+            (input)="onSearchChange($event.target.value)"
+            style="width:75px" placeholder="" 
+              onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;" onpaste="return false"
+              minlength="1" maxlength="2"  min="1" pattern="^[1-9]+" required>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<br>
+  <!-- <mat-form-field>
+
+          <input matInput placeholder="Número de horas" [(ngModel)]="data.objeto.hora"
+            onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;" onpaste="return false"
+            minlength="1" maxlength="2" type="number" min="1" pattern="^[1-9]+" required>
+
+        </mat-form-field> -->
+        <div *ngIf="data.objeto.horas == 0 || data.objeto.horas == null">
+          <mat-error>
+            <h6 > ¡Ingrese un número válido!
+            </h6>
+
+          </mat-error>
+        </div>
+      <div *ngIf="valor == false && data.objeto.horas != 0 && data.objeto.horas != null ">
+          <mat-error>
+            <h6> Supera el máximo de horas de dedicación
+            </h6>
+          </mat-error>
+          <mat-error>
+            <h6 style="color: blue;">Dedicación asignada → {{dedicacion}}</h6>
+
+          </mat-error>
+          <mat-error>
+            <h6 style="color: blue">Horas máximas permitidas → {{horasMax}}
+            </h6>
+          </mat-error>
+          <mat-error>
+            <h6 style="color: darkgreen"> Horas actuales ya registradas → {{data.horaTo}}
+            </h6>
+          </mat-error>
+          <!-- <mat-error>
+            <h6> Sugerencia de horas a ingresar → {{horasMax - data.horaTo - data.objeto.horas }}
+            </h6>
+          </mat-error> -->
+
+        </div>
+       
+</mat-dialog-content>
+<br>
+<mat-dialog-actions style="justify-content: center">
+
+  <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)=" updObjeto();" [disabled] = "valor == false || data.objeto.horas == 0 || data.objeto.horas == null">Actualizar</button>
+
+  <button mat-raised-button mat-dialog-close  type="submit" class="btn btn-primary pull-right">Cancelar</button>
+</mat-dialog-actions>

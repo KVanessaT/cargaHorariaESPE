@@ -15,6 +15,9 @@ import {TableModule} from 'primeng/table';
 import {DialogModule} from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {ProgressBarModule} from 'primeng/progressbar';
+import {ChartModule} from 'primeng/chart';
 
 import {
   MatButtonModule,
@@ -26,6 +29,8 @@ import {
   MatIconModule,
   MatDialogModule
 } from '@angular/material';
+import { MatSelectFilterModule } from 'mat-select-filter';
+
 import { PacComponent } from 'app/pages/pac/pac.component';
 import { DatosPersonalesComponent } from 'app/pages/secciones/datos-personales/datos-personales.component';
 import { DatosAcademicosComponent } from 'app/pages/secciones/datos-academicos/datos-academicos.component';
@@ -40,6 +45,9 @@ import { EditSubactividadesComponent } from 'app/subactividades/edit-subactivida
 import { DeleteSubactividadesComponent } from 'app/subactividades/delete-subactividades/delete-subactividades.component';
 import { PeriodoComponent } from 'app/periodo/periodo.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { DirectoresComponent } from 'app/directores/directores.component';
+import { CamDepDocentesComponent } from 'app/cam-dep-docentes/cam-dep-docentes.component';
+import { ActualizarActividadesComponent } from 'app/actividades/actualizar-actividades/actualizar-actividades.component';
 
 @NgModule({
   imports: [
@@ -53,6 +61,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    MatSelectFilterModule,
     TableModule,
     MatIconModule,
     DialogModule,
@@ -60,7 +69,9 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     DropdownModule,
     MatDialogModule,
     ScrollingModule,
-
+    MatProgressBarModule,
+    ProgressBarModule,
+    ChartModule
 
   ],
   declarations: [
@@ -84,7 +95,11 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     AddSubactividadesComponent,
     EditSubactividadesComponent,
     DeleteSubactividadesComponent,
-    PeriodoComponent
+    PeriodoComponent,
+    DirectoresComponent,
+    CamDepDocentesComponent,
+    ActualizarActividadesComponent
+
   ],
   entryComponents: [
     AddActividadesComponent,
@@ -95,7 +110,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     DeleteSubactividadesComponent,
     PeriodoComponent,
     SubactividadesComponent,
-    ActividadesComponent
+    ActividadesComponent,
+    ActualizarActividadesComponent
 
   ]
 })

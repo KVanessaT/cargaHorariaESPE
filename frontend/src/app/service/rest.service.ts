@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 
-
+const ROL_USUARIO = 'https://servicios.espe.edu.ec:8443/adm_user-0.0.1-SNAPSHOT/adm/id/';
 const API_URL = environment.url;
 const http = {
   headers: new HttpHeaders({
@@ -12,6 +12,8 @@ const http = {
     Accept: "application/json"
   })
 };
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -64,6 +66,19 @@ export class RestService {
       )
     )
   }
+
+  getUsuario(inf: String): Observable<any> {
+    return this.httpClient.get<any>(ROL_USUARIO + inf).pipe(
+      map((data: any) => {
+        return data;
+      },
+        error => {
+          console.log('Error:', error);
+        }
+      )
+    );
+  }
+
 
 
   findById(id: number, info: string) {

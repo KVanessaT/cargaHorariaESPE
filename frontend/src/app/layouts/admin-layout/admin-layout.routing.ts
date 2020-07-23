@@ -13,14 +13,16 @@ import { ActividadesComponent } from 'app/actividades/actividades.component';
 import { DocentesComponent } from 'app/docentes/docentes.component';
 import { PeriodoComponent } from 'app/periodo/periodo.component';
 import { SubactividadesComponent } from 'app/subactividades/subactividades.component';
+import { DirectoresComponent } from 'app/directores/directores.component';
 
 export const AdminLayoutRoutes: Routes = [
-    // {
-    //   path: '',
-    //   children: [ {
-    //     path: 'dashboard',
-    //     component: DashboardComponent
-    // }]}, {
+     {
+       path: '',
+       children: [ {
+         path: 'dashboard',
+         component: DashboardComponent
+     }]}, 
+    //{
     // path: '',
     // children: [ {
     //   path: 'userprofile',
@@ -67,8 +69,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'upgrade',        component: UpgradeComponent },
     //{ path: 'actividades/:code_periodo/:pidm/:fechIn', component: ActividadesComponent }
     { path: 'docentes', component: DocentesComponent},
-    { path: 'actividades/:code_periodo/:pidm/:code', component: ActividadesComponent },
-    //{ path: 'actividades/:code_periodo/:pidm', component: ActividadesComponent },
-    { path: 'subactividades/:pidm/:code_periodo/:code_actividad', component: SubactividadesComponent }
+    { path: 'actividades/:code_periodo/:pidm', component: ActividadesComponent },
+    { path: 'subactividades/:pidm/:code_periodo/:code_actividad', component: SubactividadesComponent },
+    { path: 'directores', component: DirectoresComponent }
 
 ];

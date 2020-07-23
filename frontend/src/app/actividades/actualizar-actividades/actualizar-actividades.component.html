@@ -1,0 +1,128 @@
+<h2 class="titulo" mat-dialog-title><i class="fa fa-edit"></i> Editar actividad</h2>
+<hr style="border-color: rgb(22, 153, 29)">
+<mat-dialog-content style="width: 400px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-10">
+            <label for="" class="skyColor"><strong> Nombre de la actividad:</strong></label><br>
+            <strong>{{data.codeA}} - {{data.descr}}</strong>
+          </div>
+          <div class="col-md-2">
+            <label for="" class="skyColor"><strong> Horas:</strong></label><br>
+            <strong>{{data.hourAct}}</strong>
+          </div>
+
+        </div>
+        <div *ngIf="ResponUnidad">
+          <div class="row">
+
+            <div class="col-md-10">
+              <label for="" class="skyColor"><strong> Responsable Actual:</strong></label><br>
+              <h6><strong>{{data.respons.apellido}} {{data.respons.nombres}}</strong></h6>
+            </div>
+
+            <div class="col-md-2">
+              <label for="" class="skyColor"><strong> Editar</strong></label><br>
+
+              <button class="btn" [disabled]="activarCedula"><i class="fa fa-edit"
+                  (click)="cambiarRespons();"></i></button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label for="" class="skyColor"><strong> Unidad de gestión:</strong></label><br>
+              <h6> <strong>{{data.unidad}}</strong></h6>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="activarCedula">
+          <!-- <div *ngIf="!responsible || !persResponsable"> -->
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field style="width: 305px;">
+                <mat-label style="color: darkblue;"> Ingrese Cédula del nuevo responsable:</mat-label>
+                <input matInput placeholder=" " type="text" name="ced" [(ngModel)]="cedula"
+                  onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;" onpaste="return false"
+                  minlength="10" maxlength="10" min="10" pattern="^[0-9]+" required
+                  (input)="onSearchChange($event.target.value)">
+                <!-- <mat-error *ngIf= "cedula.length != 10">Debe contener 10 dígitos</mat-error> -->
+
+              </mat-form-field>
+
+            </div>
+
+
+
+            <!-- <div class="col-md-2">
+              <button class="btn" (click)="getResponsable(cedula);" [disabled]="cedula == null || cedula.length == 0">
+                <i class="fa fa-search"></i>
+              </button>
+            </div> -->
+
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div *ngIf="cedula == null || cedula.length != 10" style="justify-content: center;">
+                <mat-error style="color: darkgreen;">
+                  <h6>  <b>La cédula debe contener 10 dígitos!!</b></h6>
+                 </mat-error>
+
+              </div>
+              <div *ngIf="respExiste">
+                <mat-error>
+                  <h6 style="color: darkmagenta;"><strong> La cédula ingresada no es válida!!</strong></h6>
+
+                </mat-error>
+                <mat-error>
+                  <h6> <strong>No se encontraron resultados</strong></h6>
+
+                </mat-error>
+                <mat-error>
+                  <h6 style="color: teal;"> <strong>Por favor, verifique e intente nuevamente.</strong> </h6>
+
+                </mat-error>
+              </div>
+              <div *ngIf="persResponsable && !respExiste">
+
+                <label for="" class="orangeColor"> <strong>Nuevo Responsable:</strong> </label><br>
+                <h6 class="label"><strong>{{responsable.apellido}} {{responsable.nombres}}</strong></h6>
+
+                <label for="" class="orangeColor"> <strong>Unidad de gestión:</strong> </label><br>
+                <h6 class="label"><strong>{{titleSeccion}}</strong></h6>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- <mat-form-field>
+
+          <input matInput placeholder="Número de horas" [(ngModel)]="data.objeto.hora"
+            onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;" onpaste="return false"
+            minlength="1" maxlength="2" type="number" min="1" pattern="^[1-9]+" required>
+
+        </mat-form-field> -->
+
+
+</mat-dialog-content>
+<br>
+<mat-dialog-actions style="justify-content: center">
+
+  <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)="guardarCabecera();"
+    [disabled]="!persResponsable || respExiste">Actualizar</button>
+
+  <button mat-raised-button mat-dialog-close type="submit" class="btn btn-primary pull-right">Cancelar</button>
+</mat-dialog-actions>

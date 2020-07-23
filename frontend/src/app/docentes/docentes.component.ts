@@ -4,6 +4,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { Router, ActivatedRoute } from "@angular/router";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PeriodoComponent } from 'app/periodo/periodo.component';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -19,22 +20,20 @@ export class DocentesComponent implements OnInit {
   personas: any;
   pidm: any;
   code_periodo: any;
-  //fechIn: any;
-  //fechFin: any
-  //actividades: { code_periodo: string, pidm: number };
-  //displayBasic: boolean;
   periodos: { pidm: number, code: string };
   code: any;
   cols: any[];
-  constructor(private rest: RestService, private spinner: NgxSpinnerService, private rutaActiva: ActivatedRoute, private router: Router, public dialog: MatDialog) { }
+  constructor(private rest: RestService, private spinner: NgxSpinnerService, 
+    private rutaActiva: ActivatedRoute, private router: Router, public dialog: MatDialog,
+    private toastr: ToastrService) { }
 
   ngOnInit() {
     this.getCampus();
     this.getDepart();
     this.cols = [
       { field: 'id_banner', header: 'ID Docente' },
-      { field: 'nombres', header: 'Nombres' },
       { field: 'apellido', header: 'Apellidos' },
+      { field: 'nombres', header: 'Nombres' },
       { field: 'dedicacion', header: 'Dedicación' },
     ];
   }
@@ -63,6 +62,7 @@ export class DocentesComponent implements OnInit {
   getPer() {
     this.rest.getData('allperiodos').subscribe(
       data => {
+    //this.toastr.success(data.message, 'La subactividad');
         this.periodos = data
         console.log(data)
       }
@@ -82,12 +82,16 @@ export class DocentesComponent implements OnInit {
   }
 
   //consulta campus y departamento mediante un pidm
-  getCampDep() {
+  getCampDep(valor: string) {
     this.spinner.show();
-    this.rest.getData('idm/' + this.nombreDep + '/' + this.nombreCamp).subscribe(
+    this.rest.getData(valor + '/' + this.nombreDep + '/' + this.nombreCamp).subscribe(
       data => {
-        this.personas = data;
-        console.log(this.pidm);
+        if(data.message){
+          this.toastr.warning(data.message, 'Error:')
+          this.personas = []
+        }else{
+          this.personas = data;
+        }
         this.spinner.hide();
         if (Object.keys(data).length === 0) {
         }
@@ -107,7 +111,7 @@ export class DocentesComponent implements OnInit {
       closeOnNavigation: true,
       disableClose: true,
       width: '400px',
-      data: { pidm: this.pidm, code: this.code }
+      data: { pidm: this.pidm, code: this.code , doc: this.personas}
     });
     dialogRef.afterClosed().subscribe(result => {
     });

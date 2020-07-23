@@ -6,102 +6,137 @@
 package espe.edu.ec.carga_horaria.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
 
 /**
  *
  * @author Vanessa
  */
 @Entity
-@Table(name = "PTVJACT")
+@Table(name = "PZPTCABPERJACT", schema = "PAYROLL")
 public class Actividades implements Serializable {
 
-    @Id
-
+    private static final long serialVersionUID = 1L;
+    
+    @EmbeddedId
+    public ActividadesPK id;
+    
+   
+    @Column(name = "PZPTCABPERJACT_PERIODO")
+    public String periodo;
+    
     @Basic(optional = false)
-    @Column(name = "PTVJACT_CODE")
-    private String ptvjactCode;
-    @Column(name = "PTVJACT_DESC")
-    private String ptvjactDesc;
-    @Column(name = "PTVJACT_ACTIVITY_DATE")
-    private Date ptvjactActivityDate;
-    @Column(name = "PTVJACT_SURROGATE_ID")
-    private Long pvtjactSurrogateId;
-    @Column(name = "PTVJACT_VERSION")
-    private Long ptvjactVersion;
-    @Column(name = "PTVJACT_USER_ID")
-    private String ptvjactUserId;
-    @Column(name = "PTVJACT_DATA_ORIGIN")
-    private String ptvjactDataOrigin;
-    @Column(name = "PTVJACT_VPDI_CODE")
-    private String ptvjactVpdiCode;
+    @Column(name = "PZPTCABPERJACT_HORAS")
+    private int horasA;
+    
+    @Column(name = "PZPTCABPERJACT_UNIDAD_GESTION")
+    private String unidadGestion;
+    
+    @Size(max = 50)
+    @Column(name = "PZPTCABPERJACT_RESPONSABLE")
+    private String responsable;
 
-    public String getPtvjactCode() {
-        return ptvjactCode;
+    @Column(name = "PZPTCABPERJACT_USER_CREATE")
+    private int userCrear;
+    
+    @Column(name = "PZPTCABPERJACT_DATE_CREATE")
+    private Date fechaCrear;
+    
+    @Column(name = "PZPTCABPERJACT_USER_EDIT")
+    private int userEditar;
+    
+    @Column(name = "PZPTCABPERJACT_DATE_EDIT")
+    private Date fechaEditar;
+   
+     public Actividades() {
+        id = new ActividadesPK();
     }
 
-    public void setPtvjactCode(String ptvjactCode) {
-        this.ptvjactCode = ptvjactCode;
+    
+
+    public ActividadesPK getId() {
+        return id;
     }
 
-    public String getPtvjactDesc() {
-        return ptvjactDesc;
+    public void setId(ActividadesPK id) {
+        this.id = id;
     }
 
-    public void setPtvjactDesc(String ptvjactDesc) {
-        this.ptvjactDesc = ptvjactDesc;
+    public String getPeriodo() {
+        return periodo;
     }
 
-    public Date getPtvjactActivityDate() {
-        return ptvjactActivityDate;
+    public void setPeriodo(String periodo) {
+        this.periodo = periodo;
     }
 
-    public void setPtvjactActivityDate(Date ptvjactActivityDate) {
-        this.ptvjactActivityDate = ptvjactActivityDate;
+    public int getHorasA() {
+        return horasA;
     }
 
-    public Long getPvtjactSurrogateId() {
-        return pvtjactSurrogateId;
+    public void setHorasA(int horasA) {
+        this.horasA = horasA;
     }
 
-    public void setPvtjactSurrogateId(Long pvtjactSurrogateId) {
-        this.pvtjactSurrogateId = pvtjactSurrogateId;
+   
+
+  
+
+    public String getUnidadGestion() {
+        return unidadGestion;
     }
 
-    public Long getPtvjactVersion() {
-        return ptvjactVersion;
+    public void setUnidadGestion(String unidadGestion) {
+        this.unidadGestion = unidadGestion;
     }
 
-    public void setPtvjactVersion(Long ptvjactVersion) {
-        this.ptvjactVersion = ptvjactVersion;
+    public String getResponsable() {
+        return responsable;
     }
 
-    public String getPtvjactUserId() {
-        return ptvjactUserId;
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
     }
 
-    public void setPtvjactUserId(String ptvjactUserId) {
-        this.ptvjactUserId = ptvjactUserId;
+    public int getUserCrear() {
+        return userCrear;
     }
 
-    public String getPtvjactDataOrigin() {
-        return ptvjactDataOrigin;
+    public void setUserCrear(int userCrear) {
+        this.userCrear = userCrear;
     }
 
-    public void setPtvjactDataOrigin(String ptvjactDataOrigin) {
-        this.ptvjactDataOrigin = ptvjactDataOrigin;
+    public Date getFechaCrear() {
+        return fechaCrear;
     }
 
-    public String getPtvjactVpdiCode() {
-        return ptvjactVpdiCode;
+    public void setFechaCrear(Date fechaCrear) {
+        this.fechaCrear = fechaCrear;
     }
 
-    public void setPtvjactVpdiCode(String ptvjactVpdiCode) {
-        this.ptvjactVpdiCode = ptvjactVpdiCode;
+    public int getUserEditar() {
+        return userEditar;
     }
+
+    public void setUserEditar(int userEditar) {
+        this.userEditar = userEditar;
+    }
+
+    public Date getFechaEditar() {
+        return fechaEditar;
+    }
+
+    public void setFechaEditar(Date fechaEditar) {
+        this.fechaEditar = fechaEditar;
+    }
+
+    
 }

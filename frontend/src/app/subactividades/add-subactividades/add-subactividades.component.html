@@ -1,49 +1,86 @@
-
-
-
-<br>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
-      <h5>
-        <b>
-          <mat-icon>loupe</mat-icon> Seleccione una subactividad
-        </b>
-      </h5>
-      <hr>
-      <div mat-dialog-content>
-        <div>
-          <div>
-            <mat-form-field >
-              <mat-label>Seleccione un subactividad</mat-label>
-              <mat-select name="si" style="height: auto;">
-                <mat-option *ngFor="let sub of subactividades" value="{{sub.stvasty_code}}">
-                  {{sub.stvasty_code}} - {{sub.stvasty_desc}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+      <fieldset class="form-group">
+        <form (ngSubmit)="guardarM()" #usuario="ngForm">
+          <h2 class="titulo" mat-dialog-title><i class="fa fa-plus-square"></i> Agregar una subactividad</h2>
+            <hr style="border-color: rgb(22, 153, 29)">
+            <br>
+          <div mat-dialog-content>
+            <div>
+              <div>
+                <mat-form-field style="width:320px">
+                  <mat-label style="color: darkblue;">Seleccione un subactividad</mat-label>
+                  <mat-select name="si" style="width:320px; font-size: 16px;">
+                    <mat-option *ngFor="let sub of subactividades" value="{{sub.stvasty_code}}"
+                      (click)="catchSub(sub.stvasty_code, sub.stvasty_desc); comprobarSub()">
+                      {{sub.stvasty_code}} - {{sub.stvasty_desc}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div *ngIf="horaActivar">
+                <mat-form-field style="width:80px">
+                  <mat-label style="color: darkblue;">Horas: </mat-label>
+                  <input matInput [(ngModel)]="hora" name="hora" type="text"
+                    (input)="onSearchChange($event.target.value)"
+                    onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;" onpaste="return false"
+                    minlength="1" maxlength="2" min="1" pattern="^[1-9]+" required>
+                </mat-form-field>
+              </div>
+
+            </div>
           </div>
-        </div>
-      </div>
-      <div mat-dialog-actions>
-        <div class="col-md-6">
+         
+          <div *ngIf="error">
+            <mat-error>
+              Esta subactividad ya existe en este periodo
+            </mat-error>
+          </div>
+          <div *ngIf="siHora === false && hora != 0 && hora !=null">
+            <mat-error>
+              <h6> Supera el máximo de horas de dedicación
+              </h6>
+            </mat-error>
+            <mat-error>
+              <h6 style="color: blue;">Dedicación asignada → {{dedicacion}}</h6>
 
-          <button mat-raised-button mat-dialog-close type="submit" class="btn btn-primary pull-right">CONSULTAR
-          </button>
-        </div>
-        <div class="col-md-6">
+            </mat-error>
+            <mat-error>
+              <h6 style="color: blue">Horas máximas permitidas → {{horasMax}}
+              </h6>
+            </mat-error>
+            <mat-error>
+              <h6 style="color: darkgreen"> Horas actuales ya registradas → {{data.horaTo}}
+              </h6>
+            </mat-error>
+            <mat-error>
+              <h6> Sugerencia de horas a ingresar → {{horasMax - data.horaTo}}
+              </h6>
+            </mat-error>
 
-          <button mat-raised-button mat-dialog-close type="submit" class="btn btn-danger pull-right">CANCELAR
-          </button>
+          </div>
+          <div *ngIf="hora == 0 || hora === null">
+            <mat-error>
+              <h6 > ¡Ingrese un número válido!
+              </h6>
+
+            </mat-error>
+          </div>
+        </form>
+        <br>
+        <div mat-dialog-actions>
+          <div class="col-md-6">
+            <button mat-raised-button type="submit" class="btn btn-danger pull-right" 
+               (click)="guardarM()" [disabled]="!dataAgregar || siHora == false|| hora == null || hora == 0">AGREGAR</button>
+          </div>
+          <div class="col-md-6">
+            <button mat-raised-button mat-dialog-close type="submit" class="btn btn-primary pull-right">CANCELAR</button>
+          </div>
+    
         </div>
-      </div>
+      </fieldset>
     </div>
-
 
   </div>
 </div>
-
-
-<!-- (click)="guardarPer(per.stvtermCode, per.code);"
-
-(click)="getActividades()" -->

@@ -5,103 +5,114 @@
  */
 package espe.edu.ec.carga_horaria.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Vanessa
  */
 @Entity
-@Table(name = "STVASTY")
-public class subActividades implements Serializable{
-    @Id
+@Table(name = "PERJACT", schema = "PAYROLL")
+public class Subactividades implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @EmbeddedId
+    
+    public SubactividadesPK id;
 
     @Basic(optional = false)
-    @Column(name = "STVASTY_CODE")
-    private String stvastyCode;
-    @Column(name = "STVASTY_DESC")
-    private String stvastyDesc;
-    @Column(name = "STVASTY_ACTIVITY_DATE")
-    private String stvastyActivityDate;
-    @Column(name = "STVASTY_SURROGATE_ID")
-    private String stvastySurrogateId;
-    @Column(name = "STVASTY_VERSION")
-    private String stvastyVersion;
-    @Column(name = "STVASTY_USER_ID")
-    private String stvastyUserId;
-    @Column(name = "STVASTY_DATA_ORIGIN")
-    private String stvastyDataOrigin;
-    @Column(name = "STVASTY_VPDI_CODE")
-    private String stvastyVpdiCode;
+    @NotNull
+    @Column(name = "PERJACT_STD_HRS_PER_PAY")
+    private BigDecimal horas;
 
-    public String getStvastyCode() {
-        return stvastyCode;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "PERJACT_PERCENT")
+    private BigDecimal porcentaje;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "PERJACT_FTE")
+    private BigDecimal perjactFte;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "PERJACT_ACTIVITY_DATE")
+    private Date fechaActividad;
+
+    public Subactividades() {
+        id = new SubactividadesPK();
     }
 
-    public void setStvastyCode(String stvastyCode) {
-        this.stvastyCode = stvastyCode;
+    public Subactividades(SubactividadesPK id, BigDecimal horas, BigDecimal porcentaje, BigDecimal perjactFte, Date fechaActividad) {
+        this.id = id;
+        this.horas = horas;
+        this.porcentaje = porcentaje;
+        this.perjactFte = perjactFte;
+        this.fechaActividad = fechaActividad;
     }
 
-    public String getStvastyDesc() {
-        return stvastyDesc;
+    
+    public Subactividades(int perjactPidm, String perjactPosn, String perjactSuff, Date efectiveDate, String codProvincia, String codActividad, String codSubact) {
+        this.id = new SubactividadesPK(perjactPidm, perjactPosn, perjactSuff, efectiveDate,
+                codProvincia, codActividad, codSubact);
     }
 
-    public void setStvastyDesc(String stvastyDesc) {
-        this.stvastyDesc = stvastyDesc;
+    public SubactividadesPK getId() {
+        return id;
     }
 
-    public String getStvastyActivityDate() {
-        return stvastyActivityDate;
+    public void setId(SubactividadesPK id) {
+        this.id = id;
     }
 
-    public void setStvastyActivityDate(String stvastyActivityDate) {
-        this.stvastyActivityDate = stvastyActivityDate;
+    public BigDecimal getHoras() {
+        return horas;
     }
 
-    public String getStvastySurrogateId() {
-        return stvastySurrogateId;
+    public void setHoras(BigDecimal horas) {
+        this.horas = horas;
     }
 
-    public void setStvastySurrogateId(String stvastySurrogateId) {
-        this.stvastySurrogateId = stvastySurrogateId;
+    public BigDecimal getPorcentaje() {
+        return porcentaje;
     }
 
-    public String getStvastyVersion() {
-        return stvastyVersion;
+    public void setPorcentaje(BigDecimal porcentaje) {
+
+        this.porcentaje = porcentaje;
     }
 
-    public void setStvastyVersion(String stvastyVersion) {
-        this.stvastyVersion = stvastyVersion;
+    public BigDecimal getPerjactFte() {
+        return perjactFte;
     }
 
-    public String getStvastyUserId() {
-        return stvastyUserId;
+    public void setPerjactFte(BigDecimal perjactFte) {
+        this.perjactFte = perjactFte;
     }
 
-    public void setStvastyUserId(String stvastyUserId) {
-        this.stvastyUserId = stvastyUserId;
+    public Date getFechaActividad() {
+        return fechaActividad;
     }
 
-    public String getStvastyDataOrigin() {
-        return stvastyDataOrigin;
+    public void setFechaActividad(Date fechaActividad) {
+        this.fechaActividad = fechaActividad;
     }
 
-    public void setStvastyDataOrigin(String stvastyDataOrigin) {
-        this.stvastyDataOrigin = stvastyDataOrigin;
-    }
-
-    public String getStvastyVpdiCode() {
-        return stvastyVpdiCode;
-    }
-
-    public void setStvastyVpdiCode(String stvastyVpdiCode) {
-        this.stvastyVpdiCode = stvastyVpdiCode;
-    }
-
+   
 
 }

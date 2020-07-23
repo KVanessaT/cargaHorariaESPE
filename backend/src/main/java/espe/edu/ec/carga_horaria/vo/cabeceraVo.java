@@ -16,8 +16,8 @@ public class cabeceraVo implements Serializable {
 
     private String pzptcabperjact_actividad;
     private String pzptcabperjact_periodo;
-    private String pzptcabperjact_pidm;
-    private Date pzptcabperjact_fecha_inicio;
+    private int pzptcabperjact_pidm;
+    private String pzptcabperjact_fecha_inicio;
     private String pzptcabperjact_unidad;
     private String pzptcabperjact_responsable;
     private String pzptcabperjact_horas;
@@ -25,7 +25,7 @@ public class cabeceraVo implements Serializable {
     public cabeceraVo() {
     }
 
-    public cabeceraVo(String pzptcabperjact_actividad, String pzptcabperjact_periodo, String pzptcabperjact_pidm, Date pzptcabperjact_fecha_inicio, String pzptcabperjact_unidad, String pzptcabperjact_responsable, String pzptcabperjact_horas) {
+    public cabeceraVo(String pzptcabperjact_actividad, String pzptcabperjact_periodo, int pzptcabperjact_pidm, String pzptcabperjact_fecha_inicio, String pzptcabperjact_unidad, String pzptcabperjact_responsable, String pzptcabperjact_horas) {
         this.pzptcabperjact_actividad = pzptcabperjact_actividad;
         this.pzptcabperjact_periodo = pzptcabperjact_periodo;
         this.pzptcabperjact_pidm = pzptcabperjact_pidm;
@@ -51,19 +51,19 @@ public class cabeceraVo implements Serializable {
         this.pzptcabperjact_periodo = pzptcabperjact_periodo;
     }
 
-    public String getPzptcabperjact_pidm() {
+    public int getPzptcabperjact_pidm() {
         return pzptcabperjact_pidm;
     }
 
-    public void setPzptcabperjact_pidm(String pzptcabperjact_pidm) {
+    public void setPzptcabperjact_pidm(int pzptcabperjact_pidm) {
         this.pzptcabperjact_pidm = pzptcabperjact_pidm;
     }
 
-    public Date getPzptcabperjact_fecha_inicio() {
+    public String getPzptcabperjact_fecha_inicio() {
         return pzptcabperjact_fecha_inicio;
     }
 
-    public void setPzptcabperjact_fecha_inicio(Date pzptcabperjact_fecha_inicio) {
+    public void setPzptcabperjact_fecha_inicio(String pzptcabperjact_fecha_inicio) {
         this.pzptcabperjact_fecha_inicio = pzptcabperjact_fecha_inicio;
     }
 

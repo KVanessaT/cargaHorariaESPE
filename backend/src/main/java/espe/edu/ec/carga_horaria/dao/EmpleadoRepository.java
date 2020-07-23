@@ -14,9 +14,23 @@ import org.springframework.data.repository.CrudRepository;
  *
  * @author Vanessa
  */
-public interface EmpleadoRepository extends CrudRepository <Empleado, Long>{
-       @Query(value="select * from baninst1.bzsvempleado",nativeQuery=true)
+public interface EmpleadoRepository extends CrudRepository<Empleado, Long> {
+
+    @Query(value = "select * from baninst1.bzsvempleado ", nativeQuery = true)
     List<Empleado> findallEmpleados();
 
-    //public Empleado findAllById(Long pebemplPidm);
+    Empleado findByNumeroDocumento(String cedula);
+
+    //List<Empleado> findByNumeroDocumento();
+    @Query(value = "select distinct bzsvempleado.seccion from baninst1.bzsvempleado ", nativeQuery = true)
+    List<Empleado> findDistinctseccion();
+
+    List<Empleado> findDistinctByseccion(List<String> names);
+
+    Empleado findByIdBanner(String banner);
+
+    Empleado findByPebemplPidm(int pidm);
+
+    Empleado findByCodeDedicacion(String coDedi);
+
 }

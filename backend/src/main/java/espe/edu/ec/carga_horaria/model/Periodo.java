@@ -5,7 +5,9 @@
  */
 package espe.edu.ec.carga_horaria.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -30,42 +34,65 @@ public class Periodo implements Serializable{
      @Basic(optional = false)
     @Column(name = "STVTERM_CODE")
     private String stvtermCode;
+
     @Column(name = "STVTERM_DESC")
     private String stvtermDesc;
+    
     @Column(name = "STVTERM_START_DATE")
-    private String stvtermStartDate;
+  @Temporal(TemporalType.TIMESTAMP)
+   // @JsonFormat(pattern="dd-MM-yyyy")
+    private Date stvtermStartDate;
+    
     @Column(name = "STVTERM_END_DATE")
-    private String stvtermEndDate;
+   @Temporal(TemporalType.TIMESTAMP)
+      //  @JsonFormat(pattern="dd-MM-yyyy")
+    private Date stvtermEndDate;
+    
     @Column(name = "STVTERM_FA_PROC_YR")
     private String stvtermFaProcYr;
+    
     @Column(name = "STVTERM_ACTIVITY_DATE")
     private String stvtermActivityDate;
+    
     @Column(name = "STVTERM_FA_TERM")
     private String stvtermFaTerm;
+    
     @Column(name = "STVTERM_FA_PERIOD")
     private String stvtermFaPeriod;
+    
     @Column(name = "STVTERM_FA_END_PERIOD")
     private String stvtermFaEndPeriod;
+    
     @Column(name = "STVTERM_ACYR_CODE")
     private String stvtermAcyrCode;
+    
     @Column(name = "STVTERM_HOUSING_START_DATE")
     private String stvtermHousingStartDate;
+    
     @Column(name = "STVTERM_HOUSING_END_DATE")
     private String stvtermHousingEndDate;
+    
     @Column(name = "STVTERM_SYSTEM_REQ_IND")
     private String stvtermSystemReqInd;
+    
     @Column(name = "STVTERM_TRMT_CODE")
     private String stvtermTrmtCode;
+    
     @Column(name = "STVTERM_FA_SUMMER_IND")
     private String stvtermFaSummerInd;
+    
     @Column(name = "STVTERM_SURROGATE_ID")
     private String stvtermSurrogateId;
+    
     @Column(name = "STVTERM_VERSION")
     private String stvtermVersion;
+    
     @Column(name = "STVTERM_USER_ID")
     private String stvtermUserId;
+    
     @Column(name = "STVTERM_DATA_ORIGIN")
     private String stvtermDataOrigin;
+    
     @Column(name = "STVTERM_VPDI_CODE")
     private String stvtermVpdiCode;
 
@@ -88,19 +115,19 @@ public class Periodo implements Serializable{
         this.stvtermDesc = stvtermDesc;
     }
 
-    public String getStvtermStartDate() {
+    public Date getStvtermStartDate() {
         return stvtermStartDate;
     }
 
-    public void setStvtermStartDate(String stvtermStartDate) {
+    public void setStvtermStartDate(Date stvtermStartDate) {
         this.stvtermStartDate = stvtermStartDate;
     }
 
-    public String getStvtermEndDate() {
+    public Date getStvtermEndDate() {
         return stvtermEndDate;
     }
 
-    public void setStvtermEndDate(String stvtermEndDate) {
+    public void setStvtermEndDate(Date stvtermEndDate) {
         this.stvtermEndDate = stvtermEndDate;
     }
 

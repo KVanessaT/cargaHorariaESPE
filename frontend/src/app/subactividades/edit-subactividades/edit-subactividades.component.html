@@ -38,26 +38,26 @@
         </mat-form-field> -->
         <div *ngIf="data.objeto.horas == 0 || data.objeto.horas == null">
           <mat-error>
-            <h6 > ¡Ingrese un número válido!
+            <h6 > <b>¡Ingrese un número válido!</b> 
             </h6>
 
           </mat-error>
         </div>
       <div *ngIf="valor == false && data.objeto.horas != 0 && data.objeto.horas != null ">
           <mat-error>
-            <h6> Supera el máximo de horas de dedicación
+            <h6> <b>Supera el máximo de horas de dedicación</b> 
             </h6>
           </mat-error>
           <mat-error>
-            <h6 style="color: blue;">Dedicación asignada → {{dedicacion}}</h6>
+            <h6 style="color: blue;"><b>Dedicación asignada → {{dedicacion}}</b> </h6>
 
           </mat-error>
           <mat-error>
-            <h6 style="color: blue">Horas máximas permitidas → {{horasMax}}
+            <h6 style="color: blue"><b>Horas máximas permitidas → {{horasMax}}</b> 
             </h6>
           </mat-error>
           <mat-error>
-            <h6 style="color: darkgreen"> Horas actuales ya registradas → {{data.horaTo}}
+            <h6 style="color: darkgreen"><b>Horas actuales ya registradas → {{data.horaTo}}</b> 
             </h6>
           </mat-error>
           <!-- <mat-error>

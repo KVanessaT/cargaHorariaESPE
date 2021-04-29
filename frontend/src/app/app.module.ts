@@ -16,8 +16,8 @@ import { RestService } from './service/rest.service';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from 'ngx-toastr';
 import { AuthService } from './services/auth.service';
-//import { ToastrModule } from 'ngx-toastr';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 
 @NgModule({
   imports: [
@@ -40,9 +40,11 @@ import { OAuthModule } from 'angular-oauth2-oidc';
   ],
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    
+    
   ],
-  providers: [RestService,AuthService],
+  providers: [RestService,AuthService, { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' }}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

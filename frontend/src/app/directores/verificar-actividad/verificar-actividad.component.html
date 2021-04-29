@@ -1,0 +1,61 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="form-group">
+            <div class="grid">
+              <div id="table-scroll"  class="grid-container table-scroll">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <td ><b>Estado</b></td>
+                      <td ><b>Periodo</b></td>
+                      <td ><b>Día</b></td>
+                      <td ><b>Actividad</b></td>
+                      <td ><b>Subactividad</b></td>
+                      <td ><b>Horario</b></td>
+                   
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let info of verData">
+                      <td>
+                        <mat-radio-group aria-label="Select an option" [(ngModel)]="info.estado">
+                          <mat-radio-button name="opcradio0" value="aprobado" [checked]="true">Aprobar&nbsp;&nbsp;
+                          </mat-radio-button>
+                          <mat-radio-button name="opcradio1" value="rechazado">Rechazar</mat-radio-button>
+                        </mat-radio-group>
+                      </td>
+                      <td class="ttd">{{info.periodo}}</td>
+                      <td class="ttd">{{info.dia}}</td>
+                      <td class="ttd">{{info.actividad}} </td>
+                      <td class="ttd">{{info.subactividad}}</td>
+                      <td class="ttd">{{info.horaInicio}} - {{info.horaFin}} </td>
+                   
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      
+                      <td colspan="2">
+                        <div class="btn-group col-12" role="group" aria-label="Basic example">
+                          <button type="button" class="btn btn-primary btn-round btn-md col-6" (click)="atras()"><i
+                              class="material-icons">chevron_left</i> Volver</button>
+                          <button type="submit" name="submitButton" #submitButton
+                            class="btn btn-success btn-round btn-md col-6" (click)= "guardarCarga()">
+                            <i class="material-icons">note_add</i> Guardar</button>
+                        </div>
+                      </td>
+                      
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

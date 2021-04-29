@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
-import { UserProfileComponent } from '../../user-profile/user-profile.component';
 import { TableListComponent } from '../../table-list/table-list.component';
 import { TypographyComponent } from '../../typography/typography.component';
 import { IconsComponent } from '../../icons/icons.component';
@@ -18,6 +17,9 @@ import {DropdownModule} from 'primeng/dropdown';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {ChartModule} from 'primeng/chart';
+import {MatTabsModule} from '@angular/material/tabs';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 import {
   MatButtonModule,
@@ -27,7 +29,9 @@ import {
   MatTooltipModule,
   MatSelectModule,
   MatIconModule,
-  MatDialogModule
+  MatDialogModule,
+  MatBadgeModule,
+  MatRadioModule
 } from '@angular/material';
 import { MatSelectFilterModule } from 'mat-select-filter';
 
@@ -46,8 +50,20 @@ import { DeleteSubactividadesComponent } from 'app/subactividades/delete-subacti
 import { PeriodoComponent } from 'app/periodo/periodo.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DirectoresComponent } from 'app/directores/directores.component';
-import { CamDepDocentesComponent } from 'app/cam-dep-docentes/cam-dep-docentes.component';
 import { ActualizarActividadesComponent } from 'app/actividades/actualizar-actividades/actualizar-actividades.component';
+import { NotFoundComponent } from 'app/http-errors/not-found/not-found.component';
+import { ForbiddenComponent } from 'app/http-errors/forbidden/forbidden.component';
+import { RequestErrorComponent } from 'app/http-errors/request-error/request-error.component';
+import { ReportPdfComponent } from 'app/report-pdf/report-pdf.component';
+import { ReportComponent } from 'app/report/report.component';
+import { GeneralReportComponent } from '../../report/general-report/general-report.component';
+import { ViewGeneralReportComponent } from '../../report/general-report/view-general-report/view-general-report.component';
+import { ViewGeneralReportPeriodoComponent } from 'app/report/general-report/view-general-report-periodo/view-general-report-periodo.component';
+import { ReportByDocenteComponent } from 'app/report/report-by-docente/report-by-docente.component';
+import { ViewReportByDocenteComponent } from 'app/report/report-by-docente/view-report-by-docente/view-report-by-docente.component';
+import { VerificarActividadComponent } from 'app/directores/verificar-actividad/verificar-actividad.component';
+import { ReporteHorarioComponent } from 'app/directores/reporte-horario/reporte-horario.component';
+import { PeriodosAsignadosComponent } from 'app/directores/periodos-asignados/periodos-asignados.component';
 
 @NgModule({
   imports: [
@@ -71,12 +87,16 @@ import { ActualizarActividadesComponent } from 'app/actividades/actualizar-activ
     ScrollingModule,
     MatProgressBarModule,
     ProgressBarModule,
-    ChartModule
+    ChartModule,
+    MatTabsModule,
+    PdfViewerModule,
+    MatAutocompleteModule,
+    MatBadgeModule,
+    MatRadioModule
 
   ],
   declarations: [
     DashboardComponent,
-    UserProfileComponent,
     PacComponent,
     DatosPersonalesComponent,
     DatosAcademicosComponent,
@@ -97,8 +117,20 @@ import { ActualizarActividadesComponent } from 'app/actividades/actualizar-activ
     DeleteSubactividadesComponent,
     PeriodoComponent,
     DirectoresComponent,
-    CamDepDocentesComponent,
-    ActualizarActividadesComponent
+    ActualizarActividadesComponent,
+    NotFoundComponent,
+    ForbiddenComponent,
+    RequestErrorComponent,
+    ReportPdfComponent,
+    ReportComponent,
+    GeneralReportComponent,
+    ViewGeneralReportComponent,
+    ViewGeneralReportPeriodoComponent,
+    ReportByDocenteComponent,
+    ViewReportByDocenteComponent,
+    VerificarActividadComponent,
+    ReporteHorarioComponent,
+    PeriodosAsignadosComponent
 
   ],
   entryComponents: [
@@ -111,7 +143,13 @@ import { ActualizarActividadesComponent } from 'app/actividades/actualizar-activ
     PeriodoComponent,
     SubactividadesComponent,
     ActividadesComponent,
-    ActualizarActividadesComponent
+    ActualizarActividadesComponent,
+    ReportPdfComponent,
+    ViewGeneralReportComponent,
+    ViewGeneralReportPeriodoComponent,
+    ViewReportByDocenteComponent,
+    ReporteHorarioComponent,
+    PeriodosAsignadosComponent
 
   ]
 })

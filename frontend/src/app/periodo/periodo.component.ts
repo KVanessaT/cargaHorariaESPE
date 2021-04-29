@@ -28,9 +28,7 @@ export class PeriodoComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data)
     this.getPer();
-   // this.getAllper();
   }
 
   initializar() {
@@ -45,23 +43,12 @@ export class PeriodoComponent implements OnInit {
 
 
   filteredList1: any;
-  // getPer(): void {
-  //   this.Restservice.getData('per/' + this.data.pidm).subscribe(
-  //     data => {
-  //       this.periodos = data;
-  //       console.log(data);
-  //       this.filteredList1 = this.periodos;
-  //       console.log(this.filteredList1, this.periodos);
 
-  //     }
-  //   )
-  // }
   getPer(): void {
     this.Restservice.getData('per').subscribe(
       data => {
         this.periodos = data;
         this.filteredList1 = this.periodos;
-        console.log(this.filteredList1)
       }
     )
   }
@@ -70,9 +57,7 @@ export class PeriodoComponent implements OnInit {
     this.Restservice.getData('allperiodos').subscribe(
       data => {
         this.periodos = data;
-        console.log(data);
         this.filteredList1 = this.periodos;
-        console.log(this.filteredList1, this.periodos);
 
       }
     )
@@ -87,19 +72,20 @@ export class PeriodoComponent implements OnInit {
   }
 
   //trae los periodos de un docente
-  getPeriodosDocente(pidm: number) {
-    this.Restservice.getData('per/' + pidm).subscribe(
-      data => {
-        this.periodos = data
-      }
-    )
-  }
+  // getPeriodosDocente(pidm: number) {
+  //   this.Restservice.getData('per/' + pidm).subscribe(
+  //     data => {
+  //       this.periodos = data
+  //     }
+  //   )
+  // }
 
   getActividades() {
     this.actividades = this.route.snapshot.params.data;
-    console.log(this.pidm)
-    // this.router.navigate(['/actividades', this.code_periodo, this.pidm, this.code, this.inicioFecha, this.fechFin], { skipLocationChange: true});
+   //this.router.navigate(['/actividades', this.code_periodo, this.pidm, this.code, this.inicioFecha, this.fechFin], { skipLocationChange: true});
+  //  this.router.navigate(['/actividades', this.code_periodo, this.pidm], { skipLocationChange: true});
     this.router.navigate(['/actividades', this.code_periodo, this.pidm]);
+
   }
   
 }

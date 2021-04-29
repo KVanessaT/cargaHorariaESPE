@@ -11,9 +11,9 @@
           <div mat-dialog-content>
             <div>
               <div>
-                <mat-form-field style="width:340px">
+                <mat-form-field style="width:330px">
                   <mat-label>Seleccione un periodo</mat-label>
-                  <mat-select name="si" style="width:340px;">
+                  <mat-select name="si" style="width:330px;">
                     <mat-select-filter [placeholder]="'Buscar...'" [displayMember]="'stvtermCode'" [array]="periodos"
                       (filteredReturn)="filteredList1 =$event"></mat-select-filter>
 
@@ -28,8 +28,8 @@
           </div>
        
         <mat-dialog-actions style="justify-content: center;">
-          <button mat-raised-button mat-dialog-close type="submit" class="btn btn-primary pull-right"
-          (click)="getActividades()">CONSULTAR
+          <button mat-raised-button mat-dialog-close type="submit" class="btn btn-primary pull-right" [disabled]= "!code_periodo"
+          (click)="getActividades()" >CONSULTAR
           </button>
           <button mat-raised-button mat-dialog-close type="submit" class="btn btn-danger pull-right">CANCELAR
           </button>

@@ -15,7 +15,8 @@ import { Location } from '@angular/common';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { ActualizarActividadesComponent } from './actualizar-actividades/actualizar-actividades.component';
-
+import { SafeResourceUrl } from '@angular/platform-browser';
+import { ReportPdfComponent } from 'app/report-pdf/report-pdf.component';
 
 @Component({
   selector: 'app-actividades',
@@ -23,6 +24,7 @@ import { ActualizarActividadesComponent } from './actualizar-actividades/actuali
   styleUrls: ['./actividades.component.scss']
 })
 export class ActividadesComponent implements OnInit {
+
 
   navigationSubscription
 
@@ -63,7 +65,7 @@ export class ActividadesComponent implements OnInit {
     tipoEmpleado: '',
     estado: '',//true si tiene actividades en el periodo seleccionado o false sino (true letras verdes y false rojas)
     status: '',//activo o inactivo
-    dedicacion:''
+    dedicacion: ''
   };
   dataFeIni: any
   horSub: any;
@@ -89,7 +91,11 @@ export class ActividadesComponent implements OnInit {
   uni: any;
   responsable: any
   docRes: any;
-  mensaje: any
+  mensaje: any;
+  desPeriodo: any;
+  doc: any;
+  urlSafe: SafeResourceUrl;
+  dataReport: any;
 
   constructor(private route: ActivatedRoute, private router: Router, private location: Location, private spinner: NgxSpinnerService,
     private rest: RestService, public dialog: MatDialog, private toastr: ToastrService) {
@@ -112,8 +118,6 @@ export class ActividadesComponent implements OnInit {
       { field: 'pzptcabperjact_responsable', header: 'Responsable' },
     ];
     this.getDatosDoc();
-    this.alertA = false;
-    this.alertR = false;
   }
 
   initializar() {
@@ -125,40 +129,71 @@ export class ActividadesComponent implements OnInit {
     }, 500);
   }
 
-  getActiv(): void {
+  getSubActiv() {
     this.spinner.show();
-    this.rest.getData('act/' + this.period + '/' + this.pidm).subscribe(
+    this.rest.getData('subA/' + this.pidm + '/' + this.period + '/' + this.code_act).subscribe(
       data => {
-        this.actividades = data;
-        this.getSubActiv();
-        this.getHorasSub();//pidm+periodo
-        //this.getHoraAct();//pidm+periodo+actividad
-        this.progresBar();
+        this.subactividad = data;
+        this.getHoraAct();
         this.spinner.hide();
-        console.log(this.actividades)
+        this.donut();
+        this.prueb1a();
+      }, err => {
+        console.log(err);
       }
     )
   }
 
+  getActiv(): void {
+    this.subactividad = []
+    this.horSub = 0;
+    this.horAct = 0;
+    this.getFecPer();//again to change the period CHANGEEEE
+    this.spinner.show();
+
+    this.rest.getData('act/' + this.period + '/' + this.pidm).subscribe(
+      data => {
+        this.actividades = data;
+        this.getHorasSub();//pidm+periodo
+        this.progresBar();
+        this.spinner.hide();
+      }, err => {
+        console.log(err);
+        this.router.navigateByUrl('/request-error');
+        this.spinner.hide();
+      }
+    )
+
+
+  }
+
   getFecPer() {
+    this.subactividad = []
     this.rest.getData('codePeriodo/' + this.period).subscribe(
       data => {
         this.fechas = data
+        this.desPeriodo = this.fechas.stvtermDesc;
+      }, err => {
+        console.log(err);
+        this.router.navigateByUrl('/request-error');
+        setTimeout(() => {
+        }, 500);
       }
     )
   }
+
+
 
   agregarAct(): void {
     const dialogRef = this.dialog.open(AddActividadesComponent, {
       closeOnNavigation: true,
       disableClose: true,
       width: '350px',
-      data: { pidm: this.pidm, FechaIni: this.fechas.stvtermStartDate, FechaFin: this.fechas.stvtermEndDate, periodo: this.period, code: this.docente.codeDedicacion, tipoE: this.docente.tipoEmpleado, actividadess:this.actividades }
+      data: { pidm: this.pidm, FechaIni: this.fechas.stvtermStartDate, FechaFin: this.fechas.stvtermEndDate, periodo: this.period, code: this.docente.codeDedicacion, tipoE: this.docente.tipoEmpleado, actividadess: this.actividades }
     });
     dialogRef.afterClosed().subscribe(result => {
       this.getActiv();
       this.subactividad = [];
-      //this.getHoraAct();
     });
   }
 
@@ -172,62 +207,44 @@ export class ActividadesComponent implements OnInit {
     this.dateCrear = dateCrea;
     this.userEdit = userEdita;
     this.dateEdit = dateEdita;
-    console.log("la actividad elegida es :" + this.code_act + "desc:" + this.des + ", Horas de la actividad: " + this.horasActividad, this.uni, this.responsable, this.userCrear, this.dateCrear, this.userEdit, this.dateEdit);
   }
 
-  
+
   updateActividad(): void {
-      this.rest.getData('doc/' + this.responsable).subscribe(
-        data => {
-          this.docRes = data;
-          console.log(this.docRes);
-          const dialogRef = this.dialog.open(ActualizarActividadesComponent, {
-            closeOnNavigation: true,
-            disableClose: true,
-            width: '400px',
-            data: { pidm: this.pidm, codeA: this.code_act, descr: this.des, hourAct: this.horasActividad, unidad: this.uni, FechaIni: this.fechas.stvtermStartDate, periodo: this.period,  respons: this.docRes, userC:this.userCrear, dateC:this.dateCrear, userE:this.userEdit, dateE:this.dateEdit }
-          });
-          dialogRef.afterClosed().subscribe(result => {
-            this.getActiv();
-            this.subactividad = [];
-          });
-       
-        }
-      )
-    
-    
+    this.rest.getData('doc/' + this.responsable).subscribe(
+      data => {
+        this.docRes = data;
+        const dialogRef = this.dialog.open(ActualizarActividadesComponent, {
+          closeOnNavigation: true,
+          disableClose: true,
+          width: '400px',
+          data: { pidm: this.pidm, codeA: this.code_act, descr: this.des, hourAct: this.horasActividad, unidad: this.uni, FechaIni: this.fechas.stvtermStartDate, periodo: this.period, respons: this.docRes, userC: this.userCrear, dateC: this.dateCrear, userE: this.userEdit, dateE: this.dateEdit }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          this.getActiv();
+          this.subactividad = [];
+        });
+      }, err => {
+        console.log(err);
+        this.router.navigateByUrl('/request-error');
+
+      }
+    )
   }
 
-  
+
 
   eliminarAct(codeA: string, deAct: string, horas: number) {
     this.code_act = codeA;
     this.horasActividad = horas;
     this.des = deAct;
-    console.log(this.code_act, this.horasActividad, this.pidm, this.period, this.docente.codeDedicacion)
     const dialogRef = this.dialog.open(DeleteActividadesComponent, {
-      data: { pidm: this.pidm, periodo: this.period, actividad: this.code_act, descr: this.des, code: this.docente.codeDedicacion, horasAct: this.horasActividad, FechaIni: this.fechas.stvtermStartDate}
-
+      data: { pidm: this.pidm, periodo: this.period, actividad: this.code_act, descr: this.des, code: this.docente.codeDedicacion, horasAct: this.horasActividad, FechaIni: this.fechas.stvtermStartDate }
     });
     dialogRef.afterClosed().subscribe(result => {
       this.menssaje = result;
-
       this.getActiv();
     });
-  }
-
-  getSubActiv() {
-    this.spinner.show();
-    this.rest.getData('subA/' + this.pidm + '/' + this.period + '/' + this.code_act).subscribe(
-      data => {
-        this.subactividad = data;
-        console.log(this.subactividad);
-        this.getHoraAct();
-        this.spinner.hide();
-        this.donut();
-        this.prueb1a();
-      }
-    )
   }
 
   getSubActCodeAct(): void {
@@ -235,7 +252,9 @@ export class ActividadesComponent implements OnInit {
     this.rest.getData('sub/' + this.code_act).subscribe(
       data => {
         this.actividades = data;
-        console.log(this.actividades)
+      }, err => {
+        console.log(err);
+        this.router.navigateByUrl('/request-error');
       }
     )
   }
@@ -252,10 +271,8 @@ export class ActividadesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.mensajeActualizar = result;
       if (this.mensajeActualizar) {
-        // this.toastr.success(this.mensajeActualizar.message, 'La Subactividad');
         this.getSubActiv();
         this.getActiv();
-        console.log('si')
       } else {
         console.log('no')
       }
@@ -264,7 +281,6 @@ export class ActividadesComponent implements OnInit {
 
   info: any
   editarSubAct(subacti: any): void {
-   // this.myFormattedDate = this.pipe.transform(subacti.fechae, 'dd-MM-yyyy');
     this.info = + subacti.pidm + '/' + subacti.posn + '/' + subacti.suff + '/' + subacti.fechae + '/' + subacti.codprovincia + '/' + subacti.actividad + '/' + subacti.perjact_asty_code;
     this.rest.getData('subAct/' + this.info).subscribe(
       (data: {}) => {
@@ -277,9 +293,7 @@ export class ActividadesComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
           this.mensaje = result;
-          console.log(result);
           if (this.mensaje) {
-
             this.getActiv();
             this.getHorasSub();
             console.log('si')
@@ -297,22 +311,10 @@ export class ActividadesComponent implements OnInit {
 
 
   eliminarSubAct(subacti: any): void {
-   // this.myFormattedDate = this.pipe.transform(subact.fechae, 'dd-MM-yyyy');
-   this.info = + subacti.pidm + '/' + subacti.posn + '/' + subacti.suff + '/' + subacti.fechae + '/' + subacti.codprovincia + '/' + subacti.actividad + '/' + subacti.perjact_asty_code;
-
-    // this.modificarDataSub = {
-    //   "perjactPidm": subact.pidm,
-    //   "perjactPosn": subact.posn,
-    //   "perjactSuff": subact.suff,
-    //   "perjactEffectiveDate": this.myFormattedDate,
-    //   "perjactDicdCode": subact.codprovincia,
-    //   "perjactJactCode": subact.actividad,
-    //   "perjactAstyCode": subact.perjact_asty_code
-    // }
+    this.info = + subacti.pidm + '/' + subacti.posn + '/' + subacti.suff + '/' + subacti.fechae + '/' + subacti.codprovincia + '/' + subacti.actividad + '/' + subacti.perjact_asty_code;
     this.rest.getData('subAct/' + this.info).subscribe(
       (data: {}) => {
         this.datosEditSub = data
-
         const dialogRef = this.dialog.open(DeleteSubactividadesComponent, {
           closeOnNavigation: true,
           disableClose: true,
@@ -320,9 +322,7 @@ export class ActividadesComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
           this.mensaje = result
-          console.log(result);
           if (this.mensaje) {
-
             this.getActiv();
             this.getSubActiv();
             console.log('si')
@@ -336,7 +336,6 @@ export class ActividadesComponent implements OnInit {
   }
   getDocentes(valor: string) {
     this.spinner.show();
-    // this.rest.getData('idm/' + this.docente.departamento + '/' + this.docente.campus).subscribe(
     if (this.docente.status == 'T') {
       valor = 'idmDCP'
     }
@@ -353,13 +352,16 @@ export class ActividadesComponent implements OnInit {
           disableClose: true,
           width: '700px',
           data: { docente: this.doCDP, periodo: this.period, actividades: this.actividades }
-          //data: this.doCDP 
         });
         dialogRef.afterClosed().subscribe(result => {
           this.getDatosDoc();
           this.getActiv();
           this.getSubActiv();
         });
+      }, err => {
+        console.log(err);
+        this.router.navigateByUrl('/request-error');
+        this.spinner.hide();
       }
     )
   }
@@ -374,6 +376,10 @@ export class ActividadesComponent implements OnInit {
         } else {
           this.statusDoc = "INACTIVO"
         }
+      }, err => {
+        console.log(err);
+        this.router.navigateByUrl('/request-error');
+
       }
     )
   }
@@ -388,7 +394,6 @@ export class ActividadesComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.getActiv();
-      this.getSubActiv();
     });
   }
 
@@ -396,20 +401,29 @@ export class ActividadesComponent implements OnInit {
     this.location.back(); // <-- go back to previous location on cancel
   }
 
+
   getHoraAct() {
     this.dialog.afterOpen.closed;
     this.rest.getData('sumaH/' + this.pidm + '/' + this.period + '/' + this.code_act).subscribe(
       data => {
         this.horAct = data;
+      }, err => {
+        console.log(err);
+        this.router.navigateByUrl('/request-error');
       }
     )
   }
+
+
 
   getHorasSub() {
     this.dialog.afterOpen.closed;
     this.rest.getData('sumaHT/' + this.pidm + '/' + this.period).subscribe(
       data => {
         this.horSub = data;
+      }, err => {
+        console.log(err);
+        this.router.navigateByUrl('/request-error');
       }
     )
   }
@@ -418,8 +432,6 @@ export class ActividadesComponent implements OnInit {
     this.spinner.show();
     this.rest.getData('trueFalse/' + this.pidm + '/' + this.period).subscribe(
       data => {
-        console.log(data)
-        console.log(this.horSub);
         this.spinner.hide();
         if (data == 1) {
           this.alertA = true;
@@ -430,16 +442,20 @@ export class ActividadesComponent implements OnInit {
         else {
           this.alertR = true
         }
+      }, err => {
+        console.log(err);
+        this.router.navigateByUrl('/request-error');
+        this.spinner.hide();
+
       }
     )
   }
 
   progresBar() {
-    
+
     this.rest.getData('porc/' + this.period + '/' + this.pidm).subscribe(
       data => {
         this.value = data;
-        console.log(data)
       }
     )
   }
@@ -486,6 +502,19 @@ export class ActividadesComponent implements OnInit {
   prueb1a() {
     this.pp = []
     this.desDona = []
+  }
+  getReport(): void {
+    const dialogRef = this.dialog.open(ReportPdfComponent, {
+      closeOnNavigation: true,
+      disableClose: true,
+      width: '1000px',
+      height: '1000px',
+      data: { pidm: this.pidm, periodo: this.period, docente: this.docente, fechas: this.fechas, horasT: this.horSub }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }
 

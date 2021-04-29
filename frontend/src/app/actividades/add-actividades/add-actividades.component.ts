@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { RestService } from 'app/service/rest.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -12,7 +13,8 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./add-actividades.component.scss']
 })
 export class AddActividadesComponent implements OnInit {
-  div1: boolean;
+  disableSelect = new FormControl(false);
+
   div2: boolean;
   activar: boolean;
   error: boolean;
@@ -42,10 +44,10 @@ export class AddActividadesComponent implements OnInit {
   myFormattedDate: any
   verifAct: any;
   respExiste: any
+  pResponsable: boolean;
   constructor(public dialogRef: MatDialogRef<AddActividadesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private rest: RestService,
     private spinner: NgxSpinnerService, private toastr: ToastrService) {
-    this.div1 = false;
     this.div2 = false;
     this.activar = false;
     this.error = false;
@@ -59,11 +61,8 @@ export class AddActividadesComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data);
     this.cargarActividades();
-    //this.getSeccion();
     this.getDepart();
-    //this.getResponsable();
   }
 
   //Método para listar todas las actividades que existen
@@ -81,7 +80,6 @@ export class AddActividadesComponent implements OnInit {
   //Captura el código de una actividad elegida
   getActividad(codeActi: number, descripcionAct: string) {
     this.spinner.show();
-
     this.codeAct = codeActi;
     this.descripAct = descripcionAct;
     this.fechaInicio = this.data.FechaIni;
@@ -94,12 +92,10 @@ export class AddActividadesComponent implements OnInit {
   //cerrar mat-dialog
   onNoClick(): void {
     this.dialogRef.close();
-
   }
 
   //Agrega una actividad
   guardarM() {
-
     this.guardar = {
       "id": {
         "actividad": this.codeAct,
@@ -116,15 +112,12 @@ export class AddActividadesComponent implements OnInit {
       "fechaEditar": ''
 
     }
-    console.log(this.guardar)
 
     this.rest.addData(this.guardar, "cabs1").subscribe(
       data => {
-          this.toastr.success(data.message, 'La actividad');
-          this.cargarActividades();
-          //this.actualizaHorasCabecera();
-          this.onNoClick();
-        
+        this.toastr.success(data.message, 'La actividad');
+        this.cargarActividades();
+        this.onNoClick();
       },
       error => {
       }
@@ -138,31 +131,11 @@ export class AddActividadesComponent implements OnInit {
       data => {
         this.spinner.hide();
         this.verifAct = data;
-        console.log(this.verifAct);
-        //this.addUnidad();
-        //if (data == true) {
-         //this.error = false
-         // if (this.codeAct === "02" || this.codeAct === "03" || this.codeAct === "04") {
-            //this.activar = false;
-           // this.div1 = false;
-            //this.div2 = true;
-            //this.responsable = "";
-            //this.unidadG = "";
-            // this.activar = true;
-
-          //} else {
-            //this.div1 = false;
-            //this.div2 = false;
-            //this.responsable = "R";
-            //this.unidadG = "U"
-            //this.activar = true;
-           //}
-         //} else {
-          //this.div1 = false;
-          //this.div2 = false;
-          //this.activar = false;
-          //this.error = true;
-        //}
+        if (this.codeAct == '01' || this.codeAct == '05') {
+          this.persResponsable = 'noResp';
+        } else {
+          this.persResponsable = undefined
+        }
       }
     )
   }
@@ -186,7 +159,6 @@ export class AddActividadesComponent implements OnInit {
     this.rest.getData('cabsUPDATE/' + this.data.pidm + '/' + this.period + '/' + this.codeAct).subscribe(
       data => {
         this.setHoras = data;
-        console.log(data)
         this.modelo1 = {
           "id": {
             "pzptcabperjactActividad": this.setHoras.pzptcabperjactActividad,
@@ -199,7 +171,6 @@ export class AddActividadesComponent implements OnInit {
           "pzptcabperjactResponsable": this.setHoras.pzptcabperjactResponsable,
           "pzptcabperjactUserCrear": this.setHoras.pzptcabperjactUserCrear,
           "pzptcabperjactFechaCrear": this.setHoras.pzptcabperjactFechaCrear
-
         }
         this.editCabecera();
       }
@@ -207,34 +178,18 @@ export class AddActividadesComponent implements OnInit {
   }
 
   editCabecera() {
-    console.log(this.modelo1)
     this.rest.updateData('editarSubact', this.modelo1).subscribe(
       data => {
         this.onNoClick();
-
       }
     )
   }
-
-  // getSeccion() {
-  //   this.rest.getData('section').subscribe(
-  //     data => {
-  //       this.seccion = data;
-  //       console.log("seccion: ", data);
-  //     })
-  // }
-
-
-  // guardarSeccion(valor: string) {
-  //   this.titleSeccion = valor;
-  // }
 
   //Lista de departamentos
   getDepart() {
     this.rest.getData('alldepts').subscribe(
       data => {
         this.departamentos = data
-        console.log("deps:", data)
       }
     );
   }
@@ -243,7 +198,6 @@ export class AddActividadesComponent implements OnInit {
   addUnidad() {
     if (this.data.tipoE == "DO" || this.data.tipoE == "MI") {
       this.departamentoUnidad = true;
-      //this.departamentos =false
     } else if (this.data.tipoE === "SP") {
       this.seccionUnidad = true;
     }
@@ -259,9 +213,7 @@ export class AddActividadesComponent implements OnInit {
           this.spinner.hide();
           this.mensaje = true;
           this.ResponUnidad = false;
-          this.activar = false;
         } else {
-          // this.responsable = data;
           this.persResponsable = this.responsable.pebemplPidm;
           this.spinner.hide();
           if (this.responsable.seccion == null) {
@@ -271,7 +223,6 @@ export class AddActividadesComponent implements OnInit {
             this.titleSeccion = this.responsable.seccion
           }
           this.ResponUnidad = true;
-          this.activar = true;
           this.mensaje = false;
         }
       }

@@ -1,0 +1,24 @@
+.grid {
+    position: relative;
+    //border: 1px solid #000;
+    padding-top: 5px;
+    //background: #38a03d;
+    width: 100%;
+  }
+  .grid-container {
+    overflow-y: auto;
+    height: 75vh;
+  }
+  table {
+    border-spacing: 0;
+    width: 100%;
+  }
+  
+  td,
+  th {
+   
+    color: #000;
+    padding: 10px 20px;
+    padding: 10px 20px;
+    font-size: small;
+  }

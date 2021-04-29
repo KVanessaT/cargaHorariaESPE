@@ -1,4 +1,5 @@
-<div class="card">
+<br><br><br>
+<div class="card" *ngIf="datos">
   <div class="card-header card-header-danger">
     <h4 class="card-title">Carga Horaria de Docentes </h4>
     <p class="card-category">Actividades y subactividades de los docentes en un determinado período académico</p>
@@ -34,10 +35,10 @@
                 </mat-form-field>
               </div>
               <div class="col-md-2">
-                <button mat-raised-button color="primary" (click)="getCampDep('idm')">CONSULTAR ACTIVOS</button>
+                <button mat-raised-button color="primary" (click)="getCampDep('idm')"  [disabled]="nombreCamp == null || nombreDep == null">CONSULTAR ACTIVOS</button>
               </div>
               <div class="col-md-2">
-                <button mat-raised-button color="accent" (click)="getCampDep('idmInac')">CONSULTAR INACTIVOS</button>
+                <button mat-raised-button color="accent" (click)="getCampDep('idmInac')" [disabled]="nombreCamp == null || nombreDep == null">CONSULTAR INACTIVOS</button>
               </div>
               <div class="col-md-1">
               </div>
@@ -59,7 +60,7 @@
               <div class="col-md-4">
                 <div style="text-align: right">
                   <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
-                  <input type="text" pInputText  class="input-height" placeholder="Búsqueda Global"
+                  <input type="text" pInputText class="input-height" placeholder="Búsqueda Global"
                     (input)="dt.filterGlobal($event.target.value, 'contains')">
                 </div>
               </div>
@@ -117,4 +118,5 @@
     <br>
     <br>
   </div>
+
 </div>

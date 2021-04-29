@@ -1,4 +1,4 @@
-<div class="logo">
+<!--<div class="logo">
     <img class="mx-auto d-block" src="/assets/img/Espe-Angular-Logo.png" alt="Logo - ESPE" />
 </div>
 <div class="sidebar-wrapper">
@@ -57,5 +57,117 @@
             </a>
         </li>
     </ul>
-</div>
+</div>-->
 
+<div class="logo">
+    <img class="mx-auto d-block" src="/assets/img/Espe-Angular-Logo.png" alt="Logo - ESPE" [routerLink]="['/dashboard']"
+        style="cursor:pointer;" />
+</div>
+<div class="sidebar-wrapper">
+    <div>
+        <h3 class="text-center text-danger font-weight-bold">MENÚ</h3>
+        <hr>
+    </div>
+    <ul class="nav">
+        <li routerLinkActive="active" *ngFor="let menuItem of menuItems2" class="{{menuItem.class}} nav-item">
+            <a class="nav-link" [routerLink]="[menuItem.path]">
+                <i class="material-icons">{{menuItem.icon}}</i>
+                <p>{{menuItem.title}}</p>
+            </a>
+        </li>
+    </ul>
+    <ul class="nav">
+
+        <!-- <a data-toggle="collapse" class="nav-link collapsed" href="#part1" aria-expanded="false" id="parte">
+            <i class="material-icons">account_circle</i>
+            <p><strong>ADMINISTRADOR</strong>  <b class="caret"></b></p>
+        </a>
+        <div class="collapse hide" id="part1">
+            <ul class="nav">
+                <li routerLinkActive="active" class="active" class="nav-item" *ngFor="let m of menuItems"
+                    class="{{m.clase}} nav-item">
+                    <a class="nav-link" [routerLink]="[m.url]">
+                        <span class="sidebar-mini">
+                            <p><i class="material-icons">{{ m.icono }}</i></p>
+                        </span>
+                        <span class="sidebar-normal">{{ m.opcion }}</span></a>
+                </li>
+            </ul>
+        </div> -->
+        <!-- <a data-toggle="collapse" class="nav-link collapsed" href="#pages2" aria-expanded="false"><i
+            class="material-icons">assignment_ind</i>
+          <p><strong>DIRECTOR/COORDINADOR</strong> <b class="caret"></b></p>
+        </a>
+        <div class="collapse hide" id="pages2">
+          <ul class="nav">
+            <li routerLinkActive="active" class="active" class="nav-item" *ngFor="let menuItem of menuItems3"
+              class="{{ menuItem.class }} nav-item">
+              <a class="nav-link" [routerLink]="[menuItem.url]">
+                <span class="sidebar-mini">
+                  <p><i class="material-icons">{{ menuItem.icon }}</i></p>
+                </span>
+                <span class="sidebar-normal">{{ menuItem.title }}</span></a>
+            </li>
+          </ul>
+        </div> -->
+        <!-- 
+        <a data-toggle="collapse" class="nav-link collapsed" href="#pages2" aria-expanded="false"><i
+                class="material-icons">assignment_ind</i>
+            <p><strong>ADMINISTRADOR</strong> <b class="caret"></b></p>
+        </a>
+        <div class="collapse hide" id="pages2">
+            <ul class="nav">
+
+                <li routerLinkActive="active" *ngFor="let m of menuItems" class="{{m.clase}} nav-item"> -->
+        <!-- <div class="roles">
+                        <h5 *ngIf="m.opcion == 'Consultar'">ADMINISTRADOR</h5>
+                        <h5 *ngIf="m.opcion == 'Agregar Carga Horaria'">DIRECTOR</h5>
+
+                    </div> -->
+        <!-- <h5 *ngIf="m.opcion == 'Consultar'"></h5>
+                    <hr>
+                    <a class="nav-link" [routerLink]="[m.url]">
+                        <i class="material-icons">{{m.icono}}</i>
+                        <p>{{m.opcion}}</p>
+                    </a>
+
+                </li>
+            </ul>
+        </div> -->
+
+        <!-- <a data-toggle="collapse" class="nav-link collapsed" href="#pages" aria-expanded="false"><i
+            class="material-icons">assignment_ind</i>
+        <p><strong>DIRECTOR</strong> <b class="caret"></b></p>
+    </a>
+    <div class="collapse hide" id="pages">
+        <ul class="nav">
+
+            <li routerLinkActive="active" *ngFor="let m of menuItems" class="{{m.clase}} nav-item"> -->
+        <!-- <div class="roles">
+                    <h5 *ngIf="m.opcion == 'Consultar'">ADMINISTRADOR</h5>
+                    <h5 *ngIf="m.opcion == 'Agregar Carga Horaria'">DIRECTOR</h5>
+
+                </div> -->
+        <!-- <h5 *ngIf="m.opcion == 'Agregar Carga Horaria'"></h5>
+                <hr>
+                <a class="nav-link" [routerLink]="[m.url]">
+                    <i class="material-icons">{{m.icono}}</i>
+                    <p>{{m.opcion}}</p>
+                </a>
+
+            </li>
+        </ul>
+    </div> -->
+        <li routerLinkActive="active" *ngFor="let m of menuItems" class="{{m.clase}} nav-item">
+            <div class="roles">
+                <h5 *ngIf="m.opcion == 'Carga Horaria General'">ADMINISTRADOR</h5>
+                <h5 *ngIf="m.opcion == 'Carga Horaria'">COORDINADOR</h5>
+               
+            </div>
+            <a class="nav-link" [routerLink]="[m.url]">
+                <i class="material-icons">{{m.icono}}</i>
+                <p>{{m.opcion}}</p>
+            </a>
+        </li>
+    </ul>
+</div>

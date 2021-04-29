@@ -1,0 +1,67 @@
+<div *ngIf="noDatos" class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <h2>NO SE PUDO GENERAR EL REPORTE</h2>
+            <div class="alert alert-danger">
+           
+              <span>
+                <b> No existe Carga Horaria registrada para este periodo.</b></span>
+            </div>
+            <div class="alert alert-danger">
+      
+              <span>
+                <b> No se migró la información a la Base de datos</b> </span>
+            </div>
+          </div>
+          <div class="col-6">
+            <img src="../../assets/img/reporte.png" alt="" class="img img-responsive pull-center" width="400px">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-5">
+          </div>
+          <div class="col-2">
+            <button class="btn btn-fab btn-primary btn-round" type="button" (click)="onNoClick()">
+              <i class="material-icons">clear</i>
+            </button>
+          </div>
+          <div class="col-5">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="datos">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-8  w-22 position-fixed" style="z-index: 9999;">
+        <div class="row">
+          <button class="btn btn-fab btn-success btn-round  " pTooltip="Imprimir pdf" (click)="PrintPdf()">
+            <i class="material-icons">local_printshop</i></button>
+        </div>
+        <div class="row">
+          <button class="btn btn-fab btn-success btn-round  " pTooltip="Descargar" (click)="downloadPdf()">
+            <i class="material-icons"> get_app</i></button>
+        </div>
+
+        <div class="row">
+          <button class="btn btn-fab btn-warning btn-round btn-xs " pTooltip="Atrás" (click)="onNoClick()">
+            <i class="material-icons">keyboard_backspace</i></button>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+
+        <div>
+          <pdf-viewer [src]="urlSafe" [render-text]="true" [original-size]="true" [show-all]="true" [autoresize]="true">
+          </pdf-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

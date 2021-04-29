@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 
 const ROL_USUARIO = 'https://servicios.espe.edu.ec:8443/adm_user-0.0.1-SNAPSHOT/adm/id/';
+const FullName = 'https://miespemovil.espe.edu.ec/reportes/reporteWs/username/'
 const API_URL = environment.url;
 const http = {
   headers: new HttpHeaders({
@@ -23,6 +24,18 @@ export class RestService {
 
   getData(inf: String): Observable<any> {
     return this.httpClient.get<any>(API_URL + inf).pipe(
+      map((data: any) => {
+        return data;
+      },
+        error => {
+          console.log('Error:', error);
+        }
+      )
+    );
+  }
+
+  getData1(inf: String): Observable<any> {
+    return this.httpClient.get<any>(FullName + inf).pipe(
       map((data: any) => {
         return data;
       },

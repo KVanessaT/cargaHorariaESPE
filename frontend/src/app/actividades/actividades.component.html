@@ -1,3 +1,4 @@
+<br><br><br>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12">
@@ -8,84 +9,108 @@
         <div class="container-fluid">
           <div class="col-md-12">
 
-            <div class="card" style="background-color: khaki;">
+            <div class="card" style="background-color:rgb(231, 249, 250);">
               <div class="card-body">
-                <div class="row">
-                  <div class="col-md-4">
-                    <label class="lab"><strong>CAMPUS:</strong> </label>
-                    <strong class="lab"> {{docente.campus}}</strong>
-                  </div>
-                  <div class="col-md-5">
-                    <label class="lab"> <strong>DEPARTAMENTO:</strong> </label>
-                    <strong> {{docente.departamento}}</strong>
-                  </div>
-                  <div class="col-md-3">
-                    <label class="lab"> <strong>ID: </strong> </label>
-                    <strong> {{docente.idBanner}}</strong>
-                  </div>
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-8">
+                          <mat-tab-group>
+                            <mat-tab>
+                              <ng-template mat-tab-label>
+                                <mat-icon class="example-tab-icon">business</mat-icon>&nbsp;
+                                CAMPUS
+                              </ng-template>
+                              <label class="lab"><strong>Campus: </strong> </label>
+                              <strong class="lab"> {{docente.campus}}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                              <label class="lab"><strong>Departamento: </strong> </label>
+                              <strong> {{docente.departamento}}</strong>
+                            </mat-tab>
 
-                </div>
-                <div class="row">
-                  <div class="col-md-5">
-                    <label class="lab"> <strong>Docente:</strong> </label>
-                    <strong> {{docente.apellido}} {{docente.nombres}}</strong>
+                            <mat-tab>
+                              <ng-template mat-tab-label>
+                                <mat-icon class="example-tab-icon">person_pin</mat-icon>&nbsp;
+                                DOCENTE
+                              </ng-template>
+                              <label class="lab"><strong>Nombres y apellidos: </strong></label>
+                              <strong> {{docente.apellido}} {{docente.nombres}}</strong>&nbsp;&nbsp;&nbsp;
+                              <label class="lab"> <strong>ID: </strong> </label>
+                              <strong> {{docente.idBanner}}</strong>&nbsp;&nbsp;&nbsp;
+                              <label class="lab"> <strong>Estado:</strong> </label>
+                              <strong> {{statusDoc}}</strong>&nbsp;
 
-                  </div>
-                  <div class="col-md-2">
-                    <label class="lab"> <strong>Periodo:</strong> </label>
-                    <strong> {{period}} </strong>
+                              <button class="btn btn-accent" type="submit" color="accent"
+                                (click)="getDocentes('arbolito')">Elegir
+                                otro docente {{statusDoc}}</button>
+                            </mat-tab>
+                            <mat-tab>
+                              <ng-template mat-tab-label>
+                                <mat-icon class="example-tab-icon">person_pin</mat-icon>&nbsp;
+                                DEDICACION
+                              </ng-template>
+                              <label class="lab"> <strong>Dedicación:</strong> </label>
+                              <strong> {{docente.dedicacion}} </strong>
+                              <button class="btn btn-accent" color="accent" data-toggle="collapse"
+                                data-target="#demo"><i class="fa fa-info-circle" aria-hidden="true"></i> </button>
+                              <div id="demo" class="collapse">
+                                <strong class="lab1">TIEMPO COMPLETO →</strong> máx. 40 horas
+                                <strong class="lab1">MEDIO TIEMPO →</strong> máx. 20 horas
+                                <strong class="lab1">TIEMPO PARCIAL →</strong> máx. 19 horas
+                              </div>
+                              <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog modal-sm">
+                                  <div class="modal-content">
+                                    <div class="modal-header" style="text-align: center;">
+                                      <h4 class="modal-title"> <strong class="lab2"> &nbsp;&nbsp;
+                                          &nbsp;&nbsp;&nbsp;Horas de
+                                          dedicación</strong> </h4>
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body" style="text-align: justify;">
+                                      <strong class="lab1">TIEMPO COMPLETO →</strong> máximo 40 horas &nbsp; &nbsp;
+                                      <strong class="lab1">MEDIO TIEMPO →</strong> máximo 20 horas &nbsp; &nbsp;
+                                      <strong class="lab1">TIEMPO PARCIAL →</strong> máximo 19 horas
+                                    </div>
+                                    <div class="modal-footer" style="justify-content: center;">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+                                <i class="fa fa-question"></i></button> -->
+                            </mat-tab>
+                            <mat-tab>
+                              <ng-template mat-tab-label>
+                                <mat-icon class="example-tab-icon">calendar_today</mat-icon>&nbsp;
+                                PERIODO
+                              </ng-template>
+                              <label class="lab"><strong>Periodo:</strong> </label>
+                              <strong> {{period}} {{desPeriodo}}</strong>&nbsp; &nbsp;
+                              <button type="button" class="btn btn-info" (click)="getPer()"
+                                style="justify-content: center;">Cambiar de
+                                periodo</button>
+                            </mat-tab>
 
-                  </div>
-                  <div class="col-md-3">
-                    <label class="lab"> <strong>Dedicación: </strong> </label>
-                    <strong> {{docente.dedicacion}} </strong>
-                    <div class="modal fade" id="myModal" role="dialog">
-                      <div class="modal-dialog modal-sm">
-                        <div class="modal-content">
-                          <div class="modal-header" style="text-align: center;">
-                            <h4 class="modal-title"> <strong class="lab2"> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Horas de
-                                dedicación</strong> </h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          </div>
-                          <div class="modal-body" style="text-align: justify;">
-                            <p><strong class="lab1">TIEMPO COMPLETO →</strong> máximo 40 horas</p>
-                            <p> <strong class="lab1">MEDIO TIEMPO →</strong> máximo 20 horas</p>
-                            <p> <strong class="lab1">TIEMPO PARCIAL →</strong> máximo 19 horas</p>
-                          </div>
-                          <div class="modal-footer" style="justify-content: center;">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                          </div>
+                          </mat-tab-group>
+                        </div>
+                        <div class="col-md-2">
+                          <button type="button" class="btn btn-info" (click)="getReport()">
+                            <!--getDataReport()-->
+                            <i class="fa fa-eye"></i>&nbsp; Reporte
+                          </button>
+                          <a [routerLink]="['/dashboard']" class="btn btn-info">&nbsp;&nbsp;&nbsp; Salir
+                            &nbsp;&nbsp;&nbsp; <i class="fa fa-sign-out"></i></a>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-2">
-                    <label class="lab"> <strong>Estado:</strong> </label>
-                    <strong> {{statusDoc}}</strong>
-
-                  </div>
-
                 </div>
-                <div class="row">
-                  <div class="col-md-5">
-                    <button class="btn btn-accent" type="submit" color="accent" (click)="getDocentes('arbolito')">Elegir
-                      otro docente {{statusDoc}}</button>
-                  </div>
 
 
-                  <div class="col-md-3">
-                    <button type="button" class="btn btn-info" (click)="getPer();"
-                      style="justify-content: center;">Cambiar de
-                      periodo</button>
-                  </div>
-                  <div class="col-md-2">
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
-                      <i class="fa fa-question"></i></button>
-                  </div>
-                  <div class="col-md-2">
-
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -165,7 +190,7 @@
                       </td>
                       <td style="width: 8em; text-align: center;">
                         <button class="btn"
-                          (click)="guardarCodAct(rowData.pzptcabperjact_actividad, rowData.pzptcabperjact_horas, rowData.ptvjact_desc ); getSubActiv()"><i
+                          (click)="guardarCodAct(rowData.pzptcabperjact_actividad, rowData.pzptcabperjact_horas, rowData.ptvjact_desc);getSubActiv()"><i
                             class="fa fa-eye"></i></button>
                         <button class="btn btn-primary"
                           (click)="agregarSubAct(rowData.pzptcabperjact_actividad, rowData.pzptcabperjact_horas, rowData.ptvjact_desc);getSubActiv()"
@@ -263,19 +288,20 @@
               </div>
 
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-4">
               </div>
               <div class="col-md-4">
                 <button type="button" class="btn btn-info" (click)="cancel()">
                   <i class="fa fa-hand-o-left"></i>&nbsp; Regresar </button>
 
-                <a [routerLink]="['/dashboard']" class="btn btn-info">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Salir
-                  &nbsp;&nbsp;&nbsp; <i class="fa fa-sign-out"></i></a>
+                
+                    
+
               </div>
               <div class="col-md-4">
               </div>
-            </div>
+            </div> -->
             <br>
           </div>
 
@@ -285,3 +311,10 @@
     </div>
   </div>
 </div>
+
+<!-- 
+<div>
+  <pdf-viewer [src]="urlSafe" [render-text]="true" [original-size]="true" [show-all]="true"
+ [autoresize]="true"
+  ></pdf-viewer>
+</div> -->

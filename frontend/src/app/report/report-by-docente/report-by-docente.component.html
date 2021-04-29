@@ -1,0 +1,74 @@
+<br>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="text-center">REPORTE POR DOCENTE</h4>
+      <hr>
+      <br><br>
+      <div class="row">
+
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-3">
+          <mat-form-field style="width: 280px;">
+            <mat-label style="color: darkblue;">Seleccione un periodo</mat-label>
+            <mat-select name="si">
+              <mat-select-filter [placeholder]="'Buscar...'" [displayMember]="'stvtermCode'" [array]="periodos"
+                (filteredReturn)="filteredList1 =$event"></mat-select-filter>
+              <mat-option *ngFor="let periodo of filteredList1" value="{{periodo.stvtermCode}}"
+                (click)="savePeriodo(periodo)">
+                {{periodo.stvtermCode}} - {{periodo.stvtermDesc}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1">
+          &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+
+        </div>
+        <div class="col-md-3">
+          <mat-form-field style="align-items: center;width: 250px;">
+            <mat-label style="color: darkblue;"> Ingrese ID del docente:</mat-label>
+            <input matInput placeholder=" " type="text" name="ced" [(ngModel)]="banner" onpaste="return false"
+              minlength="10" maxlength="10" min="10" required (input)="onSearchChange($event.target.value);">
+
+
+          </mat-form-field>
+        </div>
+        <div class="col-md-1">
+          &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;
+        </div>
+        <div class="col-md-3">
+          <div mat-dialog-actions style="justify-content: right;">
+            <button mat-button type="submit" class="btn btn-primary"
+              [disabled]="banner == null || !periodoCode || !user" (click)="getReport()">CONSULTAR</button>
+          </div>
+        </div>
+      </div>
+      <br>
+
+    </div>
+  </div>
+</div>
+<div *ngIf="user">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-5 text-left">
+          <b>Docente: </b> <strong> {{datosBanner.nombres}} {{datosBanner.apellido}} </strong>
+        </div>
+        <div class="col-md-5 text-left">
+          <b>Dedicación: </b> <strong> {{datosBanner.dedicacion}} </strong> 
+
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="noExist">
+  <h3>El ID ingresado no es válido o no ha sido encontrado </h3>
+</div>

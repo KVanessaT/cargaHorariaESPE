@@ -10,7 +10,7 @@
                     <div>
                         <mat-form-field style="width: 270px;">
                             <mat-label style="color: darkblue;">Seleccione una actividad</mat-label>
-                            <mat-select name="si" style="height: auto;width: 270px;">
+                            <mat-select name="si" style="height: auto;width: 270px;" [disabled]="responsable">
                                 <mat-option style="width: 300px;" *ngFor="let act of activ" value="{{act.ptvjactCode}}"
                                     (click)="getActividad(act.ptvjactCode, act.ptvjactDesc);">
                                     {{act.ptvjactCode}} - {{act.ptvjactDesc}}
@@ -18,30 +18,25 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                    <div *ngIf="div1">
-                        <mat-form-field>
-                            <input matInput placeholder="Número de horas" [(ngModel)]="hora"
-                                onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;"
-                                onpaste="return false" minlength="1" maxlength="2" type="number" min="1"
-                                pattern="^[0-9]+" required>
-                        </mat-form-field>
-                    </div>
-                    <div *ngIf="verifAct === true && codeAct === '02' || codeAct === '03' || codeAct === '04' ">
-                        <div class="row">
-                            <div class="col-md-9">
-                                <mat-form-field style="width: 210px;">
-                                    <mat-label style="color: darkblue;"> Cédula del responsable:</mat-label>
-                                    <input matInput placeholder=" " type="text" name="ced" [(ngModel)]="cedula"
-                                        onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;"
-                                        onpaste="return false" minlength="10" maxlength="10" min="4" pattern="^[0-9]+"
-                                        required>
-                                    <mat-error>Debe contener 10 dígitos</mat-error>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-3">
-                                <button class="btn" (click)="getResponsable();" [disabled]="cedula == null || cedula.length == 0">
-                                    <i class="fa fa-eye"></i>
-                                </button>
+                    <div *ngIf="verifAct === true">
+                        <div *ngIf="codeAct === '02' || codeAct === '03' || codeAct === '04' ">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <mat-form-field style="width: 210px;">
+                                        <mat-label style="color: darkblue;"> Cédula del responsable:</mat-label>
+                                        <input matInput placeholder=" " type="text" name="ced" [(ngModel)]="cedula"
+                                            onkeypress="if(isNaN(String.fromCharCode(event.keyCode))) return false;"
+                                            onpaste="return false" minlength="10" maxlength="10" min="4"
+                                            pattern="^[0-9]+" required>
+                                        <mat-error>Debe contener 10 dígitos</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn" (click)="getResponsable();"
+                                        [disabled]="cedula == null || cedula.length == 0">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -83,8 +78,8 @@
 
             <div mat-dialog-actions>
                 <div class="col-md-6">
-                    <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)="guardarM()" [disabled]="!verifAct || !persResponsable"
-                        >AGREGAR
+                    <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)="guardarM()"
+                        [disabled]="!verifAct || !persResponsable || respExiste">AGREGAR
                     </button>
                 </div>
                 <div class="col-md-6">

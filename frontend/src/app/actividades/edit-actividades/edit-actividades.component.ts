@@ -31,15 +31,7 @@ export class EditActividadesComponent implements OnInit {
 
   ngOnInit() {
     this.filteredList1 = this.data.docente
-    // if (this.data.docente.estado = 'true') {
-    //   this.info = "Contiene carga"
-    // }
-    // else {
-    //   this.info = "No tiene carga"
-
-    // }
   }
-
 
   initializar() {
     if (this.route.snapshot.params.pidm) {
@@ -56,6 +48,6 @@ export class EditActividadesComponent implements OnInit {
   getActiv() {
     this.actividades = this.route.snapshot.params.data;
     // this.router.navigate(['/actividades', this.code_periodo, this.pidm, this.code, this.inicioFecha, this.fechFin], { skipLocationChange: true});
-    this.router.navigate(['/actividades', this.data.periodo, this.pidmD]);
+    this.router.navigate(['/actividades', this.data.periodo, this.pidmD], { skipLocationChange: true});
   }
 }

@@ -1,6 +1,6 @@
 export const environment = {
-  //url: 'http://localhost:8089/sch/',
-  url: 'https://servicios.espe.edu.ec:8443/carga_horaria-0.0.1-SNAPSHOT/sch/',
+// url: 'http://localhost:8089/sch/',
+ url: 'https://servicios.espe.edu.ec:8443/carga_horaria-0.0.1-SNAPSHOT/sch/',
  production: true,
  sso: {
    serverUrl: 'https://srvcas.espe.edu.ec',

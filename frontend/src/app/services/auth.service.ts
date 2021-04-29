@@ -14,7 +14,6 @@ export class AuthService {
   }
 
   private configureOauthService() {
-    console.log("se esta jecutando");
     this.oauthService.configure(authConfig);
     this.oauthService.tryLogin({});
   }
@@ -27,7 +26,6 @@ export class AuthService {
 
   public getUserName(): string {
     const claims = this.getUserClaims();
-    console.log(claims);
     this.getUserInfo();
     if (claims === null) {
       // window.location.reload();

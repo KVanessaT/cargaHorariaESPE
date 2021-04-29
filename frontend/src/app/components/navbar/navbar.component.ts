@@ -1,8 +1,11 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-//import { ROUTES } from '../sidebar/sidebar.component';
+import { ROUTES } from '../sidebar/sidebar.component';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Router } from '@angular/router';
 import { PersonalDataService } from 'app/services/personal-data.service';
+import { User } from 'app/models/user.model';
+import { AuthService } from "app/services/auth.service";
+import { RestService } from 'app/service/rest.service';
 
 @Component({
     selector: 'app-navbar',
@@ -17,24 +20,33 @@ export class NavbarComponent implements OnInit {
     private sidebarVisible: boolean;
     cedul: any;
     idBann = 'L00012066'
+    public userData: any;
+    userName: any;
+    user: any = [];
+    id: any;
+    pidm: any;
+    id1: any;
 
-    constructor(location: Location, private element: ElementRef, private router: Router, private personalRest: PersonalDataService) {
+    constructor(location: Location, private element: ElementRef, private router: Router, private personalRest: PersonalDataService, private authService: AuthService, private rest: RestService) {
         this.location = location;
         this.sidebarVisible = false;
     }
 
     ngOnInit() {
-        //   this.listTitles = ROUTES.filter(listTitle => listTitle);
-        //   const navbar: HTMLElement = this.element.nativeElement;
-        //   this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
-        //   this.router.events.subscribe((event) => {
-        //     this.sidebarClose();
-        //      var $layer: any = document.getElementsByClassName('close-layer')[0];
-        //      if ($layer) {
-        //        $layer.remove();
-        //        this.mobile_menu_visible = 0;
-        //      }
-        //  });
+        this.userName = this.authService.getUserName();
+        this.getUserbyid(this.userName);
+
+        this.listTitles = ROUTES.filter(listTitle => listTitle);
+        const navbar: HTMLElement = this.element.nativeElement;
+        this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
+        this.router.events.subscribe((event) => {
+            this.sidebarClose();
+            var $layer: any = document.getElementsByClassName('close-layer')[0];
+            if ($layer) {
+                $layer.remove();
+                this.mobile_menu_visible = 0;
+            }
+        });
     }
 
     sidebarOpen() {
@@ -86,11 +98,11 @@ export class NavbarComponent implements OnInit {
             $layer.setAttribute('class', 'close-layer');
 
 
-            if (body.querySelectorAll('.main-panel')) {
-                document.getElementsByClassName('main-panel')[0].appendChild($layer);
-            } else if (body.classList.contains('off-canvas-sidebar')) {
-                document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
-            }
+            // if (body.querySelectorAll('.main-panel')) {
+            //     document.getElementsByClassName('main-panel')[0].appendChild($layer);
+            // } else if (body.classList.contains('off-canvas-sidebar')) {
+            //     document.getElementsByClassName('wrapper-full-page')[0].appendChild($layer);
+            // }
 
             setTimeout(function () {
                 $layer.classList.add('visible');
@@ -126,13 +138,23 @@ export class NavbarComponent implements OnInit {
         return 'Dashboard';
     }
 
-    
+    getUserbyid(id: string) {
+        this.rest.getData1(id).subscribe(
+            data=>{
+                this.userData = data;
+            }
+        )
+      
+      }
     getCedula() {
         this.personalRest.getCedula(this.idBann).subscribe(
             data => {
                 this.cedul = data;
-                console.log('daataa',data)
             }
         )
     }
+
+    logout() {
+        this.authService.logout();
+      }
 }

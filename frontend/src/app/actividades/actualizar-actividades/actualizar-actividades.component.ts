@@ -30,12 +30,8 @@ export class ActualizarActividadesComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data)
     this.actividad();
-  
   }
-
-
 
   actividad() {
     if (this.data.codeA == '02' || this.data.codeA == '03' || this.data.codeA == '04') {
@@ -54,7 +50,6 @@ export class ActualizarActividadesComponent implements OnInit {
       data => {
         this.responsible = data;
         this.spinner.hide();
-
       }
     )
   }
@@ -72,24 +67,13 @@ export class ActualizarActividadesComponent implements OnInit {
 
   getResponsable(cedula: string) {
     this.cedula = cedula;
-    //this.spinner.show();
     this.rest.getData('responsable/' + this.cedula).subscribe(
       data => {
         this.responsable = data;
         this.respExiste = data.message;
-
-        console.log(this.responsable)
-        console.log(this.respExiste)
         if (this.responsable.message != null) {
-        //  this.spinner.hide();
-          //this.mensaje = true;
-          //this.nuevoResp = false;
-          //this.ResponUnidad = true;
-         // this.activar = false;
         } else {
-          // this.responsable = data;
           this.persResponsable = this.responsable.pebemplPidm;
-          console.log(this.persResponsable)
           this.spinner.hide();
           if (this.responsable.seccion == null) {
             this.titleSeccion = this.responsable.departamento
@@ -132,9 +116,7 @@ export class ActualizarActividadesComponent implements OnInit {
     )
   }
 
-
   onNoClick(): void {
     this.dialogRef.close();
   }
-
 }

@@ -17,6 +17,17 @@
   <link href="stylesheet" type="text/css" href="/node_modules/primeicons/primeicons.css" />
   <link href="stylesheet" type="text/css" href="/node_modules/primeng/resources/themes/nova-light/theme.css" />
   <link href="stylesheet" type="text/css" href="/node_modules/primeng/resources/primeng.min.css" />
+  <script type="text/javascript">
+
+    function stopRKey(evt) {
+      var evt = (evt) ? evt : ((event) ? event : null);
+      var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+      if ((evt.keyCode == 13) && (node.type == "text")) { return false; }
+    }
+
+    document.onkeypress = stopRKey;
+
+  </script>
 </head>
 
 <body>

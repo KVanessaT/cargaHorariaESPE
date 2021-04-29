@@ -33,27 +33,17 @@ export class DeleteActividadesComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data)
     this.fechaInicio = this.data.FechaIni;
-    //this.codActividad = this.data.actividad;
-    console.log(this.data.FechaIni);
     this.compSubActividad();
     this.getDatosPeriodo();
   }
 
   eliminarActividad(): void {
     this.fechaInicio = this.pipe.transform(this.data.FechaIni, 'yyyy-MM-dd');
-    console.log(this.fechaInicio)
     this.info = this.data.actividad + '/' + this.fechaInicio + '/' + this.data.pidm;
-    console.log(this.info);
     this.rest.deleteData("dela/" + this.info).subscribe(data => {
-
-      console.log(data);
-      // this.menssaje = data;
       this.toastr.success(data.message, 'La actividad');
       this.dialogRef.close(this.data);
-      console.log(this.data);
-      console.log("eliminado");
     });
   }
 
@@ -61,7 +51,6 @@ export class DeleteActividadesComponent implements OnInit {
     this.rest.getData('codePeriodo/' + this.data.periodo).subscribe(
       data => {
         this.periodos = data;
-        console.log(this.periodos.stvtermStartDate);
       }
     )
   }
@@ -70,20 +59,13 @@ export class DeleteActividadesComponent implements OnInit {
     this.rest.getData('getSub/' + this.data.pidm + '/' + this.data.periodo + '/' + this.data.actividad).subscribe(data => {
       if (data == true) {
         this.activar = true;
-        //this.eliminarActividad();
       } else {
         this.error = true
       }
-
-
-      // this.dialogRef.close(this.data);
-      console.log(this.data);
-      console.log(this.data.pidm, this.data.periodo, this.data.actividad, this.data.descr);
     });
   }
 
   cerrarModal() {
     this.dialogRef.close();
   }
-
 }

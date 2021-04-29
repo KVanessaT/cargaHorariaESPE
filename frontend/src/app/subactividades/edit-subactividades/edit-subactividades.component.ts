@@ -33,11 +33,9 @@ export class EditSubactividadesComponent implements OnInit {
     private spinner: NgxSpinnerService, private toastr: ToastrService) {
       this.maxHora = false;
       this.activar = false;
-
   }
 
   ngOnInit() {
-    console.log(this.data)
     this.codeDed();
   }
 
@@ -76,7 +74,6 @@ export class EditSubactividadesComponent implements OnInit {
         this.valor = data
         if (data == true) {
          // this.activar = true
-         console.log(data)
           //this.updObjeto();
         } else {
          // this.maxHora = true;
@@ -91,7 +88,6 @@ export class EditSubactividadesComponent implements OnInit {
     this.rest.updateData('editarSAc' ,this.data.objeto).subscribe(
       data => {
         this.toastr.success(data.message, 'La subactividad');
-        console.log(data);
         this.updCab();
       }
     )

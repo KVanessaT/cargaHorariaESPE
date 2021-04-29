@@ -23,13 +23,23 @@ export class DocentesComponent implements OnInit {
   periodos: { pidm: number, code: string };
   code: any;
   cols: any[];
-  constructor(private rest: RestService, private spinner: NgxSpinnerService, 
-    private rutaActiva: ActivatedRoute, private router: Router, public dialog: MatDialog,
-    private toastr: ToastrService) { }
+  banner: string;
+  opcion: any;
+  datosDir: any;
+  crear: any;
+  editar: any;
+  eliminar: any;
+  datos: boolean;
+ 
+  constructor(private rest: RestService, private spinner: NgxSpinnerService,
+    private router: Router, public dialog: MatDialog,
+    private toastr: ToastrService) {
+    this.banner = atob(localStorage.getItem('iduser'));
+    this.datos = false;
+  }
 
   ngOnInit() {
-    this.getCampus();
-    this.getDepart();
+    this.getmenu1();
     this.cols = [
       { field: 'id_banner', header: 'ID Docente' },
       { field: 'apellido', header: 'Apellidos' },
@@ -43,7 +53,6 @@ export class DocentesComponent implements OnInit {
     this.rest.getData('allcampus').subscribe(
       data => {
         this.campus = data
-        console.log(data)
       }
     );
   }
@@ -52,8 +61,7 @@ export class DocentesComponent implements OnInit {
   getDepart() {
     this.rest.getData('alldepts').subscribe(
       data => {
-        this.departamentos = data
-        console.log(data)
+        this.departamentos = data  
       }
     );
   }
@@ -62,9 +70,7 @@ export class DocentesComponent implements OnInit {
   getPer() {
     this.rest.getData('allperiodos').subscribe(
       data => {
-    //this.toastr.success(data.message, 'La subactividad');
         this.periodos = data
-        console.log(data)
       }
     );
   }
@@ -72,13 +78,11 @@ export class DocentesComponent implements OnInit {
   //Guarda campus seleccionado
   guardarcampus(nameCampus: string) {
     this.nombreCamp = nameCampus;
-    console.log("nombre de campus es :" + this.nombreCamp);
   }
 
   //Guarda departamento seleccionado
   guardarDept(nameDep: string) {
     this.nombreDep = nameDep;
-    console.log("nombre departamento:" + this.nombreDep);
   }
 
   //consulta campus y departamento mediante un pidm
@@ -86,18 +90,16 @@ export class DocentesComponent implements OnInit {
     this.spinner.show();
     this.rest.getData(valor + '/' + this.nombreDep + '/' + this.nombreCamp).subscribe(
       data => {
-        if(data.message){
+        if (data.message) {
           this.toastr.warning(data.message, 'Error:')
           this.personas = []
-        }else{
+        } else {
           this.personas = data;
         }
         this.spinner.hide();
-        if (Object.keys(data).length === 0) {
-        }
-        (err: any) => {
-          console.log(err);
-        }
+      }, err => {
+        console.log(err);
+        this.router.navigateByUrl('/request-error');
       }
     )
   }
@@ -106,49 +108,44 @@ export class DocentesComponent implements OnInit {
   periodoComponent(pidm: number, code: string): void {
     this.pidm = pidm;
     this.code = code;
-    console.log(pidm, code);
     const dialogRef = this.dialog.open(PeriodoComponent, {
       closeOnNavigation: true,
       disableClose: true,
       width: '400px',
-      data: { pidm: this.pidm, code: this.code , doc: this.personas}
+      data: { pidm: this.pidm, code: this.code, doc: this.personas }
     });
     dialogRef.afterClosed().subscribe(result => {
     });
   }
 
-//Guarda periodo seleccionado
-  // guardarPer(periodo: string, fecIn: string) {
-  //   this.code_periodo = periodo;
-  //   this.fechIn = fecIn;
-  //   console.log(this.code_periodo, this.fechIn);
-  // }
+  //evita ingresar por ruta al sistema si un usuario no tiene permisos
+  getmenu1() {
+    this.rest.getUsuario(this.banner + "/" + 41).subscribe(
+      data => {
+        if (data.message == "No se encontraron resultados") {
+          this.router.navigate(["/forbbiden"]);
+        }
+        if (data.opciones) {
+          this.opcion = data.opciones.filter(item => item.opcion == 'Carga Horaria General');
+          if (this.opcion.length == 0 || this.opcion == undefined) {
+            this.router.navigateByUrl('/forbbiden');
+          } else {
+            this.datos = true
+            this.getCampus();
+            this.getDepart();
+            this.crear = this.opcion.map(x => x.crear);
+            this.crear = this.crear.find(x => x == 1);
+            this.editar = this.opcion.map(x => x.modificar);
+            this.editar = this.editar.find(x => x == 1);
+            this.eliminar = this.opcion.map(x => x.eliminar);
+            this.eliminar = this.eliminar.find(x => x == 1);
 
-//Listar actividades
-  // getActividades() {
-  //   // this.actividades = this.rutaActiva.snapshot.params.data;
-  //   this.router.navigate(['/actividades', this.code_periodo, this.pidm, this.fechIn]);
-  //   console.log('get actividades', this.actividades);
-  // }
-
-  //consulta actividades
-  // getPidmPer(code_periodo: string, pidm: number) {
-  //   this.rest.getData('act/' + this.code_periodo + '/' + this.pidm).subscribe(
-  //     data => {
-  //       this.actividades = data;
-
-  //       console.log(data);
-  //       console.log('data recibida:', data);
-  //     }
-
-  //   );
-  //   this.getActividades();
-
-  //   console.log(this.pidm, this.code_periodo);
-
-  // }
-  // showBasicDialog() {
-  //   this.displayBasic = true;
-  // }
-
+          }
+        }
+      }, err => {
+        console.log(err);
+        this.router.navigateByUrl('/request-error');
+      }
+    )
+  }
 }

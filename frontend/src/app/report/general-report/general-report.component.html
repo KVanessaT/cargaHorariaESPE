@@ -1,0 +1,131 @@
+<br>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="text-center">REPORTE GENERAL</h4>
+      <hr>
+      <br>
+      <mat-tab-group>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <mat-icon class="example-tab-icon">business</mat-icon>&nbsp;&nbsp;
+            Generar reporte Por campus, departamento y periodo
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </ng-template>
+          <br>
+
+          <mat-form-field>
+            <mat-label>Seleccione un campus</mat-label>
+            <mat-select name="listacampus">
+              <mat-option *ngFor="let campus of listCampus" value="{{campus.stvcampCode}}" (click)="saveCampus(campus)">
+                {{campus.stvcampDesc}} {{campus.stvcampDataOrigin}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+
+          <mat-form-field>
+            <mat-label>Seleccione un departamento</mat-label>
+            <mat-select name="sisos">
+              <mat-option *ngFor="let departamento of listDepartamentos" value="{{departamento.stvcollCode}}"
+                (click)="saveDepartamento(departamento)">
+                {{departamento.stvcollDesc}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <mat-form-field>
+            <mat-label>Seleccione un periodo</mat-label>
+            <mat-select name="si">
+              <mat-select-filter [placeholder]="'Buscar...'" [displayMember]="'stvtermCode'" [array]="listPeriodos"
+                (filteredReturn)="filteredList1 =$event"></mat-select-filter>
+              <mat-option *ngFor="let periodo of filteredList1" value="{{periodo.stvtermCode}}"
+                (click)="savePeriodo(periodo)">
+                {{periodo.stvtermCode}} - {{periodo.stvtermDesc}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+          <button type="submit" class="btn btn-primary fa-pull-right"
+            [disabled]="!campusDescripcion || ! departDescripcion || !periodoCode" (click)="getReportCDP()">Generar
+            Reporte</button>
+
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label style="text-align: center;">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <mat-icon class="example-tab-icon">calendar_today</mat-icon>&nbsp;&nbsp;
+            Generar reporte Por PERIODO &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </ng-template>
+          <br>
+
+          <mat-form-field>
+            <mat-label>Seleccione un periodo</mat-label>
+            <mat-select name="si">
+              <mat-select-filter [placeholder]="'Buscar...'" [displayMember]="'stvtermCode'" [array]="listPeriodos"
+                (filteredReturn)="filteredList1 =$event"></mat-select-filter>
+              <mat-option *ngFor="let periodo of filteredList1" value="{{periodo.stvtermCode}}"
+                (click)="savePer(periodo)">
+                {{periodo.stvtermCode}} - {{periodo.stvtermDesc}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <button type="submit" class="btn btn-primary" [disabled]="!periodo" (click)="getReportP()">CONSULTAR</button>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+
+<div #target></div>
+<div id="top"></div>
+<div *ngIf="noDatos" class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6">
+            <h2>NO SE PUDO GENERAR EL REPORTE</h2>
+            <div class="alert alert-danger">
+              <span>
+                <b> No existe Carga Horaria registrada para este periodo.</b></span>
+            </div>
+            <div class="alert alert-danger">
+              <span>
+                <b> No se migró la información a la Base de datos</b> </span>
+            </div>
+          </div>
+          <div class="col-6">
+            <img src="../../assets/img/reporte.png" alt="" class="img img-responsive pull-center" width="400px">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-5">
+          </div>
+          <div class="col-2">
+          </div>
+          <div class="col-5">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="datos" class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-8  w-22 position-fixed" style="z-index: 9999;">
+      </div>
+      <div class="col-md-12">
+        <div>
+          <pdf-viewer [src]="urlSafe" [render-text]="true" [original-size]="true" [show-all]="true" [autoresize]="true">
+          </pdf-viewer>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

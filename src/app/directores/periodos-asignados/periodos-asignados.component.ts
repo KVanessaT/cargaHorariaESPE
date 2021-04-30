@@ -16,20 +16,21 @@ export class PeriodosAsignadosComponent implements OnInit {
   periodosData: any;
 valores: any;
   constructor(public dialogRef: MatDialogRef<PeriodosAsignadosComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private rest: RestService, private spinner: NgxSpinnerService, private toastr: ToastrService, public dialog: MatDialog) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, private rest: RestService, private spinner: NgxSpinnerService, private toastr: ToastrService, public dialog: MatDialog) { 
+      console.log(this.data);
+      this.valores = this.data;
+
+    }
   ngOnInit() {
-    console.log(this.data);
-    this.valores = this.data;
+   
     this.getPeriodos();
 
   }
 
   getPeriodos() {
-    this.spinner.show();
     this.rest.getData('perDocente/' + this.data.docente.id_banner).subscribe(
       data => {
         this.periodos = data;
-        this.spinner.hide();
         console.log(this.periodos);
       }
     )

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { PeriodoComponent } from 'app/periodo/periodo.component';
 import { ToastrService } from 'ngx-toastr';
-import { VerificarActividadComponent} from 'app/directores/verificar-actividad/verificar-actividad.component';
+import { VerificarActividadComponent } from 'app/directores/verificar-actividad/verificar-actividad.component';
 import { ReporteHorarioComponent } from './reporte-horario/reporte-horario.component';
 import { PeriodosAsignadosComponent } from './periodos-asignados/periodos-asignados.component';
 import { AutoScaleAxis } from 'chartist';
@@ -35,10 +35,13 @@ export class DirectoresComponent implements OnInit {
   solicitudesP: any;
   verifyCarga: any;
   infoDocente: any;
+  imagen: boolean;
 
-  constructor(private rest: RestService, private spinner: NgxSpinnerService, private rutaActiva: ActivatedRoute, private router: Router, 
-    private route: ActivatedRoute,public dialog: MatDialog, private toastr: ToastrService) {
-    this.banner = atob(localStorage.getItem('iduser'))
+  constructor(private rest: RestService, private spinner: NgxSpinnerService, private rutaActiva: ActivatedRoute, private router: Router,
+    private route: ActivatedRoute, public dialog: MatDialog, private toastr: ToastrService) {
+    this.banner = atob(localStorage.getItem('iduser'));
+    this.imagen = false;
+    this.datos = false;
   }
 
   ngOnInit() {
@@ -150,56 +153,59 @@ export class DirectoresComponent implements OnInit {
     //this.rest.getData('solicitudes/' + 'pendiente/' + this.departamento + '/' + this.campus).subscribe(
     this.rest.getData('solicitudes/' + 'pendiente/' + 'CIENCIAS DE LA COMPUTACION' + '/' + 'ESPE MATRIZ SANGOLQUI').subscribe(
       data => {
-        this.solicitud = data; 
+        this.solicitud = data;
+        this.imagen = true
+
+        console.log(this.solicitud);
       }
     )
   }
 
   verCarga(rowData) {
     this.verifyCarga = this.route.snapshot.params.data;
-  //  this.router.navigate(['/verificarCarga', rowData.pebempl_pidm], { skipLocationChange: true});
+    //  this.router.navigate(['/verificarCarga', rowData.pebempl_pidm], { skipLocationChange: true});
     this.router.navigate(['/verificarCarga', btoa(rowData.pebempl_pidm)]);
   }
 
-  guardarData(rowData){
+  guardarData(rowData) {
     console.log(rowData);
     this.infoDocente = rowData;
     console.log(this.infoDocente);
   }
 
 
-  verReporte(){
+  verReporte() {
     const dialogRef = this.dialog.open(ReporteHorarioComponent, {
-      closeOnNavigation: true,  
-     // height: '700px',   
+      closeOnNavigation: true,
+      // height: '700px',   
       disableClose: true,
-      data: {docente: this.infoDocente}
+      data: { docente: this.infoDocente }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
-  } 
-  
-  verPeriodos(rowData){
+  }
+
+  verPeriodos(rowData) {
     this.infoDocente = rowData;
     const dialogRef = this.dialog.open(PeriodosAsignadosComponent, {
-      closeOnNavigation: true,    
+      closeOnNavigation: true,
       width: '650px',
       disableClose: true,
-      data: {docente: this.infoDocente}
+      data: { docente: this.infoDocente }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
   }
-  
-  aprobarTodo(rowData){
-console.log(rowData);
+
+  aprobarTodo(rowData) {
+    console.log(rowData);
 
   }
 
-  rechazarTodo(rowData){
-console.log(rowData);
+  rechazarTodo(rowData) {
+    console.log(rowData);
 
   }
 

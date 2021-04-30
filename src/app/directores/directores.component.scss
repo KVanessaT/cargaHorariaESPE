@@ -1,0 +1,29 @@
+
+
+  .input-height{
+    height : 20px
+  }
+  th, td{
+    text-align: center;
+  }
+
+  .zoom {
+   
+  
+    transition: transform 0.5s; /* Animation */
+    //width: 40px;
+    //height: 40px;
+    width: 32px;
+    height: 32px;
+    margin: 0 auto;
+  }
+  
+  .zoom:hover {
+    transform: scale(
+      3.5
+    ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+  }
+  img{
+    float: left;
+    clear: left;
+  }

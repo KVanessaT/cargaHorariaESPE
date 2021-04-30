@@ -29,25 +29,25 @@
                       </td>
                       <td class="ttd">{{info.periodo}}</td>
                       <td class="ttd">{{info.dia}}</td>
-                      <td class="ttd">{{info.actividad}} </td>
-                      <td class="ttd">{{info.subactividad}}</td>
+                      <td class="ttd">{{info.codActividad}}-{{info.actividad}} </td>
+                      <td class="ttd">{{info.codSubactividad}}-{{info.subactividad}}</td>
                       <td class="ttd">{{info.horaInicio}} - {{info.horaFin}} </td>
                    
                     </tr>
                   </tbody>
                   <tfoot>
                     <tr>
-                      
+                      <td colspan="2"></td>
                       <td colspan="2">
                         <div class="btn-group col-12" role="group" aria-label="Basic example">
                           <button type="button" class="btn btn-primary btn-round btn-md col-6" (click)="atras()"><i
                               class="material-icons">chevron_left</i> Volver</button>
                           <button type="submit" name="submitButton" #submitButton
-                            class="btn btn-success btn-round btn-md col-6" (click)= "guardarCarga()">
+                            class="btn btn-success btn-round btn-md col-6"  (click)= "guardarCarga()">
                             <i class="material-icons">note_add</i> Guardar</button>
                         </div>
                       </td>
-                      
+                      <td colspan="2"></td>
                     </tr>
                   </tfoot>
                 </table>
@@ -59,3 +59,6 @@
     </div>
   </div>
 </div>
+
+
+

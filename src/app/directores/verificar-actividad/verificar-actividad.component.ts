@@ -3,7 +3,6 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { RestService } from 'app/service/rest.service';
 import { Location } from '@angular/common';
 import { NgxSpinnerService } from 'ngx-spinner';
-
 @Component({
   selector: 'app-verificar-actividad',
   templateUrl: './verificar-actividad.component.html',
@@ -50,7 +49,7 @@ export class VerificarActividadComponent implements OnInit {
       data => {
         console.log(this.verData)
         this.spinner.hide();
-
+        this.initializar()
       }
     );
   }

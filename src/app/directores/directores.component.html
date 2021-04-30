@@ -1,0 +1,251 @@
+<br><br><br>
+<div class="card" *ngIf="datos">
+  <div class="card-header-danger card-header-tabs">
+    <div class="nav-tabs-navigation">
+      <div class="nav-tabs-wrapper">
+        <ul class="nav nav-tabs" data-tabs="tabs">
+          <li class="nav-item">
+            <a class="nav-link">
+              <h4 class="card-title">Solicitudes de aprobación de carga horaria</h4>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">
+              <h4 class="card-title"> | </h4>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#solicitudes" data-toggle="tab">
+              <i class="material-icons">notification_important</i>
+              REVISAR SOLICITUDES POR CADA ACTIVIDAD
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#cargahoraria" data-toggle="tab">
+              <i class="material-icons">event</i>
+              REVISAR SOLICITUDES GENERAL
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="tab-content">
+
+      <div class="tab-pane active show" id="solicitudes">
+        <div class="col-md-12">
+          <p-table [columns]="cols2" [value]="solicitud" [paginator]="true" [rows]="6" selectionMode="single"
+            [rowsPerPageOptions]="[6,10,20]" [resizableColumns]="true" [autoLayout]="true">
+            <ng-template pTemplate="caption">
+              LISTADO DE SOLICITUDES POR REVISAR
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="color: darkblue;">DOCENTE</th>
+                <th style="color: darkblue;">ID BANNER</th>
+               
+                <th style="color: darkblue;">DEDICACION</th>
+                <th style="color: darkblue;">ACTIVIDADES</th>
+                <!-- <th><i class="material-icons" [matBadge]="solicitudesP" matBadgeColor="warn">notification_important</i>
+            </th> -->
+                <!-- <th style="color: darkblue;">Reporte</th> -->
+                <th style="color: darkblue;">REPORTE</th>
+                <!-- <th style="color: darkblue;">REPORTE GENERAL</th> -->
+                <!-- <th style="color: darkblue;">ACCIONES</th> -->
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td>
+                  <img [hidden]="!imagen" class="img rounded-circle zoom "
+                            src="../../assets/img/src_assets_img_car-dealer-loader.gif" width="32"
+                            style="vertical-align: middle" />
+
+                            <img [hidden]="imagen" class="img rounded-circle"
+                            src="https://servicios.espe.edu.ec:8443/userimages-0.0.1-SNAPSHOT/imagen/{{rowData.id_banner}}"
+                            width="32" style="vertical-align: middle" (load)="imagen = false" />
+                          <span style="padding-left: 5px;" class="image-text;">{{rowData.apellido}} {{rowData.nombres}}</span>
+
+                </td>
+                <td>{{rowData.id_banner}}</td>
+            
+                <td>{{rowData.dedicacion}}</td>
+                <td><i class="material-icons" type="button" (click)="verCarga(rowData)"
+                    matBadge="{{rowData.solicitudes}}" matBadgeColor="warn">notification_important</i></td>
+                <!-- <td> <button type="button" (click)="verCarga(rowData)"> <i class="fa fa-eye"></i></button> </td> -->
+                <!-- <td> <button type="button" (click)="guardarData(rowData);verReporte()">Reporte
+            </button> </td> -->
+                <!-- <td> <i class="material-icons" type="button" (click)="verPeriodos(rowData)">visibility</i></td> -->
+                <td><button type="button" class="btn btn-info btn-sm" (click)="verPeriodos(rowData)"> <i
+                      class="material-icons">description</i> Detalle</button></td>
+                <!-- <td><button type="button" class="btn btn-info btn-sm" (click)="verReporteGeneral(rowData)"> <i
+                      class="material-icons">description</i> Detalle</button></td>
+                <td><button type="button" class="btn btn-success btn-sm" (click)="aprobarTodo(rowData)"><i
+                      class="material-icons">thumb_up</i> Aprobar</button>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="rechazarTodo(rowData)"><i
+                      class="material-icons">thumb_down</i> Rechazar</button>
+                </td> -->
+
+
+
+                <!-- <td> <button type="button" (click)="verPeriodos(rowData)"><i class="material-icons">visibility</i>Ver Reporte</button> </td> -->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                <td colspan="5">
+                  <p style="justify-content: center; color: darkblue;"> No se encontraron registros</p>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="tab-pane" id="cargahoraria">
+        <div class="col-md-12">
+          <p-table [columns]="cols2" [value]="solicitud" [paginator]="true" [rows]="6" selectionMode="single"
+            [rowsPerPageOptions]="[6,10,20]" [resizableColumns]="true" [autoLayout]="true">
+            <ng-template pTemplate="caption">
+              LISTADO DE SOLICITUDES POR REVISAR
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th>DOCENTE</th>
+                <th style="color: darkblue;">ID BANNER</th>
+                <!-- <th>DEDICACION</th> -->
+                <th style="color: darkblue;">ACTIVIDADES</th>
+                <!-- <th><i class="material-icons" [matBadge]="solicitudesP" matBadgeColor="warn">notification_important</i>
+            </th> -->
+                <!-- <th style="color: darkblue;">Reporte</th> -->
+                <th style="color: darkblue;">REPORTE POR PERIODO</th>
+                <th style="color: darkblue;">REPORTE GENERAL</th>
+                <th style="color: darkblue;">ACCIONES</th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td>
+                  <img [hidden]="!imagen" class="img rounded-circle zoom"
+                            src="../../assets/img/src_assets_img_car-dealer-loader.gif" width="32"
+                            style="vertical-align: middle" />
+
+                            <img [hidden]="imagen" class="img rounded-circle zoom"
+                            src="https://servicios.espe.edu.ec:8443/userimages-0.0.1-SNAPSHOT/imagen/{{rowData.id_banner}}"
+                            width="32" style="vertical-align: middle" (load)="imagen = false" />
+                          <span style="padding-left: 5px;" class="image-text">{{rowData.apellido}} {{rowData.nombres}}</span>
+                </td>
+                <td>{{rowData.id_banner}}</td>
+                <!-- <td>{{rowData.dedicacion}}</td> -->
+                <td><i class="material-icons" type="button" (click)="verCarga(rowData)"
+                    matBadge="{{rowData.solicitudes}}" matBadgeColor="warn">notification_important</i></td>
+                <!-- <td> <button type="button" (click)="verCarga(rowData)"> <i class="fa fa-eye"></i></button> </td> -->
+                <!-- <td> <button type="button" (click)="guardarData(rowData);verReporte()">Reporte
+            </button> </td> -->
+                <!-- <td> <i class="material-icons" type="button" (click)="verPeriodos(rowData)">visibility</i></td> -->
+                <td><button type="button" class="btn btn-info btn-sm" (click)="verPeriodos(rowData)"> <i
+                      class="material-icons">description</i> Detalle</button></td>
+                <td><button type="button" class="btn btn-info btn-sm" (click)="verReporteGeneral(rowData)"> <i
+                      class="material-icons">description</i> Detalle</button></td>
+                <td><button type="button" class="btn btn-success btn-sm" (click)="aprobarTodo(rowData)"><i
+                      class="material-icons">thumb_up</i> Aprobar</button>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="rechazarTodo(rowData)"><i
+                      class="material-icons">thumb_down</i> Rechazar</button>
+                </td>
+
+
+
+                <!-- <td> <button type="button" (click)="verPeriodos(rowData)"><i class="material-icons">visibility</i>Ver Reporte</button> </td> -->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage" let-columns>
+              <tr>
+                <td colspan="5">
+                  <p style="justify-content: center; color: darkblue;"> No se encontraron registros</p>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+
+
+        <!-- <p-table #dt [columns]="cols" [value]="personas" [paginator]="true" [rows]="4" selectionMode="single"
+          [rowsPerPageOptions]="[4,10,20]">
+          <ng-template pTemplate="caption">
+            <div class="container-fluid">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-5">
+                    <button mat-raised-button type="submit" color="primary" (click)="comprobarDatos('idm')">Docentes
+                      activos</button>
+                    <button mat-raised-button type="submit" color="accent" (click)="comprobarDatos('idmInac')">Docentes
+                      inactivos</button>
+                  </div>
+                  <div class="col-md-4" style="text-align: center; color: darkblue;">
+                    <h4> <b> LISTADO DE DOCENTES</b></h4>
+                  </div>
+                  <div class="col-md-3">
+                    <div>
+                      <i class="pi pi-search" style="margin:4px 4px 0 0;"></i>
+                      <input type="text" pInputText size="16" class="input-height" placeholder=""
+                        (input)="dt.filterGlobal($event.target.value, 'contains')">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th style="width: 16%; text-align: center;color: darkblue;">ID </th>
+              <th style="width: 25%; text-align: center;color: darkblue;">APELLIDOS</th>
+              <th style="width: 25%; text-align: center;color: darkblue;">NOMBRES</th>
+              <th style="width: 20%; text-align: center;color: darkblue;">DEDICACION</th>
+
+              <th rowspan="2" style="width: 10%; text-align: center;color: darkblue;">
+                <br>
+                <i class="material-icons">
+                  toc
+                </i>
+              </th>
+            </tr>
+            <tr>
+              <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                <input *ngSwitchCase="'id_banner'" pInputText type="text" placeholder="" class="input-height"
+                  style="width: 100%;" (input)="dt.filter($event.target.value, col.field, 'startsWith')">
+                <input *ngSwitchCase="'apellido'" pInputText type="text" placeholder="" class="input-height"
+                  style="width: 100%;" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input *ngSwitchCase="'nombres'" pInputText type="text" placeholder="" class="input-height"
+                  style="width: 100%;" (input)="dt.filter($event.target.value, col.field, 'contains')">
+                <input *ngSwitchCase="'dedicacion'" pInputText type="text" placeholder="" class="input-height"
+                  style="width: 100%;" (input)="dt.filter($event.target.value, col.field, 'contains')">
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr [pSelectableRow]="rowData" [pEditableRow]="rowData">
+              <td style="text-align: center;">{{rowData.id_banner}}</td>
+              <td style="text-align: center;">{{rowData.apellido}}</td>
+              <td style="text-align: center;">{{rowData.nombres}}</td>
+              <td style="text-align: center;">{{rowData.dedicacion}}</td>
+              <td style="width: 8em; text-align: center;">
+                <button class="btn" (click)="periodoComponent(rowData.pebempl_pidm, rowData.code)"><i
+                    class="fa fa-search-plus"></i></button>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage" let-columns>
+            <tr>
+              <td colspan="5">
+                <p style="justify-content: center; color: darkblue;"> No se encontraron registros</p>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table> -->
+      </div>
+    </div>
+  </div>
+</div>

@@ -40,19 +40,22 @@ export class ReporteHorarioComponent implements OnInit {
 
   now = Date.now();
   formatoFecha = this.pipe.transform(this.now, 'dd-MM-yyyy h:mm a ');
+  cargaAprobada: any;
+  mostrarData: boolean;
   constructor(public dialogRef: MatDialogRef<ReporteHorarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private rest: RestService, private spinner: NgxSpinnerService, private toastr: ToastrService) {
     console.log(this.data);
+    this.mostrarData = false;
+    this.informacionDocente();
+
 
   }
 
   ngOnInit() {
     //this.dataDocente();
     console.log(this.data);
-    this.informacionDocente();
   }
   informacionDocente() {
-    this.spinner.show()
     console.log(this.data.info.docente.id_banner);
 
     this.rest.getData('ban/' + this.data.info.docente.id_banner).subscribe(
@@ -69,7 +72,6 @@ export class ReporteHorarioComponent implements OnInit {
         } else if (this.dataDocente.codeDedicacion == 'EX') {
           this.horasDed = 20
         }
-        this.spinner.hide();
         this.cargarData();
       }
     )
@@ -81,18 +83,33 @@ export class ReporteHorarioComponent implements OnInit {
     console.log(this.data.periodo.periodo_code);
 
     this.spinner.show();
-    this.rest.getData('getHorario/' + '7777' + '/' + this.data.periodo.periodo_code + '/' + this.data.periodo.fecha_inicio + '/' + this.data.periodo.fecha_fin).subscribe(
+    this.rest.getData('getHorario/' + this.dataDocente.pebemplPidm + '/' + this.data.periodo.periodo_code + '/' + this.data.periodo.fecha_inicio + '/' + this.data.periodo.fecha_fin).subscribe(
       data => {
-        console.log(this.data.periodo.periodo_code);
-
         this.datosCarga = data;
-        console.log(this.data.periodo.periodo_code);
-
         this.spinner.hide();
-        console.log(this.datosCarga);
-        this.visualizarPdf();
+       this.getCargaAprobada();
       }
     );
+  }
+
+  getCargaAprobada(){
+    this.spinner.show();
+    this.rest.getData('aprobadas/' + this.dataDocente.pebemplPidm + '/' + this.data.periodo.periodo_code + '/' + this.data.periodo.fecha_inicio + '/' + this.data.periodo.fecha_fin).subscribe(
+      data =>{
+        this.cargaAprobada = data;
+        console.log(this.cargaAprobada);
+        if(this.cargaAprobada.length == 0){
+          this.mostrarData = false;
+        }else{
+         
+          this.mostrarData = true;
+          this.spinner.hide();
+          this.visualizarPdf();
+        }
+        
+      }
+    )
+
   }
 
 
@@ -242,7 +259,7 @@ export class ReporteHorarioComponent implements OnInit {
 
     this.doc.setLineWidth(1);
     this.doc.line(30, 175, 810, 175);
-    for (const item of this.datosCarga) {
+    for (const item of this.cargaAprobada) {
       rows.push({
         horario: item.horario,
         lunes: item.lunes,

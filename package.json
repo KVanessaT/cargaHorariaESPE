@@ -47,7 +47,7 @@
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.5.13",
     "mat-select-filter": "^2.3.6",
-    "moment": "2.24.0",
+    "moment": "2.29.2",
     "ng2-pdf-viewer": "^6.3.2",
     "ngx-spinner": "^8.1.0",
     "ngx-toastr": "11.3.3",
